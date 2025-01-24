@@ -7,7 +7,7 @@ const IngredientGroup = ({ typeName, data }) => {
 			<h2 className='text text_type_main-medium'>{typeName}</h2>
 			<div className={styles.ingredients}>
 				{data.map((item) => (
-					<IngredientItem key={item.id} itemData={item}></IngredientItem>
+					<IngredientItem key={item._id} itemData={item} />
 				))}
 			</div>
 		</section>
