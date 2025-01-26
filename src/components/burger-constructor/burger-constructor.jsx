@@ -6,6 +6,7 @@ import {
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
 
 import styles from './burger-constructor.module.scss';
 
@@ -68,7 +69,11 @@ const BurgerConstructor = ({ data }) => {
 					Оформить заказ
 				</Button>
 			</div>
-			{modalIsActive && <Modal onClose={onClose}></Modal>}
+			{modalIsActive && (
+				<Modal onClose={onClose}>
+					<OrderDetails orderNumber='034536'></OrderDetails>
+				</Modal>
+			)}
 		</section>
 	);
 };

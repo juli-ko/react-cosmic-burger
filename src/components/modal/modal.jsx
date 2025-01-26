@@ -14,7 +14,7 @@ const Modal = ({ children, header, onClose }) => {
 			}
 		};
 		document.addEventListener('keydown', handleEsc);
-		
+
 		return () => {
 			document.removeEventListener('keydown', handleEsc);
 		};
@@ -31,7 +31,7 @@ const Modal = ({ children, header, onClose }) => {
 							<CloseIcon type='primary' />
 						</button>
 					</div>
-					<div className={styles.content}>{children}</div>
+					{children}
 				</div>
 			</div>
 		</>,

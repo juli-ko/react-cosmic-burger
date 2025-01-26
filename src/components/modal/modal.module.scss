@@ -12,15 +12,13 @@
 
 .modal {
 	display: flex;
-	align-items: flex-start;
+	flex-direction: column;
 	background-color: #1c1c21;
 	border-radius: 40px;
 	width: 720px;
-	height: 540px;
 }
 
 .header {
-	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
