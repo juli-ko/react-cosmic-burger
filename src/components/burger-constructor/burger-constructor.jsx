@@ -7,6 +7,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import { dataPropType } from '../../prop-types/prop-types';
 
 import styles from './burger-constructor.module.scss';
 
@@ -79,3 +80,5 @@ const BurgerConstructor = ({ data }) => {
 };
 
 export default BurgerConstructor;
+
+BurgerConstructor.propTypes = dataPropType.isRequired;

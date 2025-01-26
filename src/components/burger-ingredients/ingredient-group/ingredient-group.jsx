@@ -1,5 +1,7 @@
 import styles from './ingredient-group.module.scss';
 import IngredientItem from '../ingredient-item/ingredient-item';
+import { dataPropType } from '../../../prop-types/prop-types';
+import PropTypes from 'prop-types';
 
 const IngredientGroup = ({ typeName, data, onClick }) => {
 	return (
@@ -14,3 +16,9 @@ const IngredientGroup = ({ typeName, data, onClick }) => {
 	);
 };
 export default IngredientGroup;
+
+IngredientGroup.propTypes = {
+	typeName: PropTypes.string.isRequired,
+	data: dataPropType.isRequired,
+	onClick: PropTypes.func.isRequired,
+};

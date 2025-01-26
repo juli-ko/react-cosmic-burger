@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './order-details.module.scss';
 import done from '../../images/done.svg';
 
@@ -18,3 +19,7 @@ const OrderDetails = ({ orderNumber }) => {
 };
 
 export default OrderDetails;
+
+OrderDetails.propTypes = {
+	orderNumber: PropTypes.string.isRequired,
+};

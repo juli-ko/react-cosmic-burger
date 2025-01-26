@@ -1,3 +1,4 @@
+import { ingredientPropType } from '../../prop-types/prop-types';
 import styles from './ingredient-details.module.scss';
 
 const IngredientDetails = ({ itemData }) => {
@@ -31,3 +32,5 @@ const IngredientDetails = ({ itemData }) => {
 };
 
 export default IngredientDetails;
+
+IngredientDetails.propTypes = ingredientPropType.isRequired;

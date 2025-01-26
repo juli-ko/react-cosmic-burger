@@ -1,4 +1,6 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../../prop-types/prop-types';
 
 import styles from './ingredient-item.module.scss';
 
@@ -18,3 +20,8 @@ const IngredientItem = ({ itemData, onClick }) => {
 };
 
 export default IngredientItem;
+
+IngredientItem.propTypes = {
+	itemData: ingredientPropType.isRequired,
+	onClick: PropTypes.func.isRequired,
+};
