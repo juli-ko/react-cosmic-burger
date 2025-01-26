@@ -2,9 +2,9 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 import styles from './ingredient-item.module.scss';
 
-const IngredientItem = ({ itemData }) => {
+const IngredientItem = ({ itemData, onClick }) => {
 	return (
-		<div className={styles.ingredient}>
+		<div className={styles.ingredient} onClick={() => onClick(itemData)}>
 			<img src={itemData.image} alt={itemData.name} />
 			<div className={`${styles.currencyBlock} p-2`}>
 				<span className='text text_type_digits-default mr-2'>

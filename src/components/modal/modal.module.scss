@@ -1,0 +1,34 @@
+.container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.modal {
+	display: flex;
+	align-items: flex-start;
+	background-color: #1c1c21;
+	border-radius: 40px;
+	width: 720px;
+	height: 540px;
+}
+
+.header {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.closeBtn {
+	cursor: pointer;
+	appearance: none;
+	border: none;
+	background: none;
+}
