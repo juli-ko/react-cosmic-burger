@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import IngredientGroup from './ingredient-group/ingredient-group';
-import ModalOverlay from '../modal-overlay/modal-overlay';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.scss';
@@ -49,10 +49,9 @@ const BurgerIngredients = ({ data }) => {
 			</div>
 
 			{selectedIngredient && (
-				<>
-					<ModalOverlay onClose={closeModal} />
-					<Modal header='Детали ингредиента' onClose={closeModal}></Modal>
-				</>
+				<Modal header='Детали ингредиента' onClose={closeModal}>
+					<IngredientDetails itemData={selectedIngredient}></IngredientDetails>
+				</Modal>
 			)}
 		</section>
 	);
