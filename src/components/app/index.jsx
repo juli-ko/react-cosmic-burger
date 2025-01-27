@@ -1,10 +1,9 @@
-import styles from './app.module.scss';
+import { useState, useEffect } from 'react';
+import { fetchIngredients } from '../../utils/burger-api';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { useState, useEffect } from 'react';
-
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+import styles from './app.module.scss';
 
 export const App = () => {
 	const [data, setData] = useState([]);
@@ -14,11 +13,7 @@ export const App = () => {
 	useEffect(() => {
 		const getIngredients = async () => {
 			try {
-				const response = await fetch(API_URL);
-				if (!response.ok) {
-					throw new Error('Ошибка при получении данных');
-				}
-				const result = await response.json();
+				const result = await fetchIngredients();
 				setData(result.data);
 			} catch (error) {
 				setHasError(true);
