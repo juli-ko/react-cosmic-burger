@@ -12,18 +12,24 @@ const AppHeader = () => {
 			<nav className={`${styles.navigation} text text_type_main-default m-4`}>
 				<ul className={styles.ul}>
 					<li className={`${styles.li} mr-2`}>
-						<BurgerIcon type='primary' />
-						<span className='pl-2'>Конструктор</span>
+						<a href='#' className={styles.link}>
+							<BurgerIcon type='primary' />
+							<span className='pl-2'>Конструктор</span>
+						</a>
 					</li>
 					<li className={styles.li}>
-						<ListIcon type='secondary' />
-						<span className='pl-2 text_color_inactive'>Лента заказов</span>
+						<a href='#' className={styles.link}>
+							<ListIcon type='secondary' />
+							<span className='pl-2 text_color_inactive'>Лента заказов</span>
+						</a>
 					</li>
 				</ul>
 				<ul className={styles.ul}>
 					<li className={styles.li}>
-						<ProfileIcon type='secondary' />
-						<span className='pl-2 text_color_inactive'>Личный кабинет</span>
+						<a href='#' className={styles.link}>
+							<ProfileIcon type='secondary' />
+							<span className='pl-2 text_color_inactive'>Личный кабинет</span>
+						</a>
 					</li>
 				</ul>
 			</nav>
