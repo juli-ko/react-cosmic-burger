@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import IngredientGroup from './ingredient-group/ingredient-group';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -7,7 +7,11 @@ import styles from './burger-ingredients.module.scss';
 import { dataPropType } from '../../prop-types/prop-types';
 import { getIngredientsData } from '../../services/ingredientsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToConstructor } from '../../services/constructorSlice';
+import {
+	addToDetails,
+	getItemData,
+	removeFromDetails,
+} from '../../services/ingredientDetailsSlice';
 
 const TYPES = [
 	{ name: 'Булки', value: 'bun' },
@@ -18,16 +22,11 @@ const TYPES = [
 const BurgerIngredients = () => {
 	const dispatch = useDispatch();
 	const data = useSelector(getIngredientsData);
+	const selectedIngredient = useSelector(getItemData);
 	const [currentType, setCurrentType] = React.useState(0);
-	const [selectedIngredient, setSelectedIngredient] = useState(null);
-
-	const openModal = (ingredient) => {
-		setSelectedIngredient(ingredient);
-		dispatch(addToConstructor(ingredient));
-	};
 
 	const closeModal = () => {
-		setSelectedIngredient(null);
+		dispatch(removeFromDetails());
 	};
 
 	return (
@@ -50,14 +49,13 @@ const BurgerIngredients = () => {
 						key={type.value}
 						typeName={type.name}
 						data={data.filter((item) => item.type === type.value)}
-						onClick={openModal}
 					/>
 				))}
 			</div>
 
 			{selectedIngredient && (
 				<Modal header='Детали ингредиента' onClose={closeModal}>
-					<IngredientDetails itemData={selectedIngredient}></IngredientDetails>
+					<IngredientDetails></IngredientDetails>
 				</Modal>
 			)}
 		</section>

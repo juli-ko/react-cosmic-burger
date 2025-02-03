@@ -1,7 +1,10 @@
+import { useSelector } from 'react-redux';
 import { ingredientPropType } from '../../prop-types/prop-types';
 import styles from './ingredient-details.module.scss';
+import { getItemData } from '../../services/ingredientDetailsSlice';
 
 const IngredientDetails = ({ itemData }) => {
+	const itemData = useSelector(getItemData);
 	return (
 		<div className={styles.container}>
 			<img src={itemData.image_large} alt={itemData.name} />
