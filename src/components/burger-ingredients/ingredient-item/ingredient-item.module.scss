@@ -1,0 +1,14 @@
+.ingredient {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 272px;
+	padding: 0 16px;
+	height: 208px;
+	cursor: pointer;
+}
+
+.currencyBlock {
+	display: flex;
+	align-items: center;
+}

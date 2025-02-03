@@ -1,0 +1,61 @@
+.ingredientsWrapper {
+	max-width: 600px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-end;
+	height: calc(100vh - 160px);
+}
+
+.ingredient {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.ingredientsScroll {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: flex-end;
+	width: 100%;
+	max-height: 464px;
+	overflow: hidden;
+	overflow-y: scroll;
+	scrollbar-color: auto;
+	scrollbar-width: auto;
+
+	&::-webkit-scrollbar {
+		background-color: #2f2f37;
+		width: 10px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: #8585ad;
+	}
+
+	@media screen and (max-height: 1000px) {
+		max-height: 408px;
+	}
+
+	@media screen and (max-height: 1000px) {
+		max-height: 368px;
+	}
+}
+
+.info {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding-right: 10px;
+
+	& svg {
+		width: 33px;
+		height: 33px;
+	}
+}
+
+.total {
+	display: flex;
+	align-items: center;
+}
