@@ -5,6 +5,9 @@ import Modal from '../modal/modal';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.scss';
 import { dataPropType } from '../../prop-types/prop-types';
+import { getIngredientsData } from '../../services/ingredientsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToConstructor } from '../../services/constructorSlice';
 
 const TYPES = [
 	{ name: 'Булки', value: 'bun' },
@@ -12,12 +15,15 @@ const TYPES = [
 	{ name: 'Начинки', value: 'main' },
 ];
 
-const BurgerIngredients = ({ data }) => {
+const BurgerIngredients = () => {
+	const dispatch = useDispatch();
+	const data = useSelector(getIngredientsData);
 	const [currentType, setCurrentType] = React.useState(0);
 	const [selectedIngredient, setSelectedIngredient] = useState(null);
 
 	const openModal = (ingredient) => {
 		setSelectedIngredient(ingredient);
+		dispatch(addToConstructor(ingredient));
 	};
 
 	const closeModal = () => {

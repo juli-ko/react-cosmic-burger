@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
 	ConstructorElement,
 	DragIcon,
@@ -10,11 +12,15 @@ import OrderDetails from '../order-details/order-details';
 import { dataPropType } from '../../prop-types/prop-types';
 
 import styles from './burger-constructor.module.scss';
+import {
+	getConstructorBun,
+	getConstructorIngredients,
+} from '../../services/constructorSlice';
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = () => {
 	const [modalIsActive, setModalActive] = useState(false);
-	const bun = data[0];
-	const chosenIngredients = [1, 4, 6, 13, 13];
+	const ingredients = useSelector(getConstructorIngredients);
+	const bun = useSelector(getConstructorBun);
 
 	const handleClick = () => {
 		setModalActive(true);
@@ -27,35 +33,59 @@ const BurgerConstructor = ({ data }) => {
 	return (
 		<section className={`${styles.ingredientsWrapper} mr-5 ml-5 pt-25`}>
 			<div className={`${styles.ingredient} mb-4 mr-4 ml-5`}>
-				<ConstructorElement
-					type='top'
-					isLocked={true}
-					text={`${bun.name} (верх)`}
-					price={bun.price}
-					thumbnail={bun.image}
-				/>
+				{bun ? (
+					<ConstructorElement
+						type='top'
+						isLocked={true}
+						text={`${bun.name} (верх)`}
+						price={bun.price}
+						thumbnail={bun.image}
+					/>
+				) : (
+					<div
+						className={`constructor-element constructor-element_pos_top ${styles.skeleton}`}>
+						<p className='text text_type_main-default text_color_inactive'>
+							Выберите булку
+						</p>
+					</div>
+				)}
 			</div>
 			<div className={`${styles.ingredientsScroll} mb-4 ml-5 p-2`}>
-				{chosenIngredients.map((chosenId, id) => (
-					<div className={styles.ingredient} key={id}>
+				{ingredients.length <= 0 && (
+					<div className={`constructor-element ${styles.skeleton}`}>
+						<p className='text text_type_main-default text_color_inactive'>
+							Выберите начинку и соус
+						</p>
+					</div>
+				)}
+				{ingredients.map((item) => (
+					<div className={styles.ingredient} key={item.key}>
 						<DragIcon type='primary' />
 						<ConstructorElement
-							key={data[chosenId].id}
-							text={data[chosenId].name}
-							price={data[chosenId].price}
-							thumbnail={data[chosenId].image}
+							text={item.name}
+							price={item.price}
+							thumbnail={item.image}
 						/>
 					</div>
 				))}
 			</div>
 			<div className={`${styles.ingredient} mr-4`}>
-				<ConstructorElement
-					type='bottom'
-					isLocked={true}
-					text={`${bun.name} (низ)`}
-					price={bun.price}
-					thumbnail={bun.image}
-				/>
+				{bun ? (
+					<ConstructorElement
+						type='bottom'
+						isLocked={true}
+						text={`${bun.name} (низ)`}
+						price={bun.price}
+						thumbnail={bun.image}
+					/>
+				) : (
+					<div
+						className={`constructor-element constructor-element_pos_bottom ${styles.skeleton}`}>
+						<p className='text text_type_main-default text_color_inactive'>
+							Выберите булку
+						</p>
+					</div>
+				)}
 			</div>
 			<div className={`${styles.info} mt-10`}>
 				<div className={`${styles.total} mr-10`}>
