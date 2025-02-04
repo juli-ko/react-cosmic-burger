@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-
+import { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	ConstructorElement,
 	DragIcon,
@@ -9,26 +8,51 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { dataPropType } from '../../prop-types/prop-types';
-
-import styles from './burger-constructor.module.scss';
 import {
 	getConstructorBun,
 	getConstructorIngredients,
+	getConstructorIds,
+	removeItemFromConstructor,
 } from '../../services/constructorSlice';
+import {
+	loadOrders,
+	removeOrderNum,
+} from '../../services/orderDetailsSlice';
+import styles from './burger-constructor.module.scss';
 
 const BurgerConstructor = () => {
-	const [modalIsActive, setModalActive] = useState(false);
+	const dispatch = useDispatch();
 	const ingredients = useSelector(getConstructorIngredients);
 	const bun = useSelector(getConstructorBun);
+	const constructorIds = useSelector(getConstructorIds);
+	const [modalIsActive, setModalActive] = useState(false);
 
 	const handleClick = () => {
+		dispatch(loadOrders(constructorIds));
 		setModalActive(true);
 	};
 
 	const onClose = () => {
+		dispatch(removeOrderNum());
 		setModalActive(false);
 	};
+
+	const handleRemove = (item) => {
+		dispatch(removeItemFromConstructor(item));
+	};
+
+	const totalSum = useCallback(() => {
+		let sum = 0;
+		if (bun) {
+			sum += bun.price * 2;
+		}
+		if (ingredients.length > 0) {
+			ingredients.forEach((element) => {
+				sum += element.price;
+			});
+		}
+		return sum;
+	}, [ingredients, bun]);
 
 	return (
 		<section className={`${styles.ingredientsWrapper} mr-5 ml-5 pt-25`}>
@@ -65,6 +89,7 @@ const BurgerConstructor = () => {
 							text={item.name}
 							price={item.price}
 							thumbnail={item.image}
+							handleClose={() => handleRemove(item)}
 						/>
 					</div>
 				))}
@@ -89,7 +114,9 @@ const BurgerConstructor = () => {
 			</div>
 			<div className={`${styles.info} mt-10`}>
 				<div className={`${styles.total} mr-10`}>
-					<span className='text text_type_digits-medium mr-2'>610</span>
+					<span className='text text_type_digits-medium mr-2'>
+						{totalSum()}
+					</span>
 					<CurrencyIcon type='primary' />
 				</div>
 				<Button
@@ -102,7 +129,7 @@ const BurgerConstructor = () => {
 			</div>
 			{modalIsActive && (
 				<Modal onClose={onClose}>
-					<OrderDetails orderNumber='034536'></OrderDetails>
+					<OrderDetails></OrderDetails>
 				</Modal>
 			)}
 		</section>
@@ -110,5 +137,3 @@ const BurgerConstructor = () => {
 };
 
 export default BurgerConstructor;
-
-BurgerConstructor.propTypes = dataPropType.isRequired;

@@ -8,7 +8,6 @@ import { dataPropType } from '../../prop-types/prop-types';
 import { getIngredientsData } from '../../services/ingredientsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	addToDetails,
 	getItemData,
 	removeFromDetails,
 } from '../../services/ingredientDetailsSlice';
