@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -34,10 +36,10 @@ export const App = () => {
 					<p className='text text_type_main-default'>Загрузка...</p>
 				)}
 				{!loading && !hasError && (
-					<>
+					<DndProvider backend={HTML5Backend}>
 						<BurgerIngredients />
 						<BurgerConstructor />
-					</>
+					</DndProvider>
 				)}
 			</main>
 		</div>
