@@ -1,9 +1,13 @@
-import { useDrop } from 'react-dnd';
+import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	ConstructorElement,
 	DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+	incrementCounter,
+	decrementCounter,
+} from '../../services/ingredientsSlice';
 import {
 	getConstructorBun,
 	getConstructorIngredients,
@@ -28,12 +32,22 @@ const DropContainer = ({ type, position = '' }) => {
 		}),
 	});
 
+	// const [{ opacity }, dragInsideConstructorRef] = useDrag({
+	// 	type: 'item',
+	// 	item: { ...item },
+	// 	collect: (monitor) => ({
+	// 		opacity: monitor.isDragging() ? 0 : 1,
+	// 	}),
+	// });
+
 	const onDropHandler = (item) => {
 		dispatch(addToConstructor(item));
+		dispatch(incrementCounter(item._id));
 	};
 
 	const handleRemove = (item) => {
 		dispatch(removeItemFromConstructor(item));
+		dispatch(decrementCounter(item._id));
 	};
 
 	const borderColor = isHover ? 'lightgreen' : 'transparent';

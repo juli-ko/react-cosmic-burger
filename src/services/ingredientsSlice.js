@@ -16,7 +16,33 @@ export const loadIngredients = createAsyncThunk(
 
 const ingredientsSlice = createSlice({
 	name: 'ingredients',
-	reducers: {},
+	reducers: {
+		incrementCounter: (state, action) => {
+			const ingredient = state.ingredients.find(
+				(item) => item._id === action.payload
+			);
+			if (ingredient) {
+				if (ingredient.type === 'bun') {
+					state.ingredients.map((item) => {
+						if (item.type === 'bun') item.counter = 0;
+					});
+					ingredient.counter += 1;
+				}
+				ingredient.counter += 1;
+			}
+		},
+		decrementCounter: (state, action) => {
+			const ingredient = state.ingredients.find(
+				(item) => item._id === action.payload
+			);
+			if (ingredient && ingredient.counter > 0) {
+				if (ingredient.type === 'bun') {
+					ingredient.counter -= 1;
+				}
+				ingredient.counter -= 1;
+			}
+		},
+	},
 	initialState,
 	selectors: {
 		getIngredientsLoading: (state) => state.loading,
@@ -34,7 +60,10 @@ const ingredientsSlice = createSlice({
 			})
 			.addCase(loadIngredients.fulfilled, (state, action) => {
 				state.loading = false;
-				state.ingredients = action.payload.data;
+				state.ingredients = action.payload.data.map((ingredient) => ({
+					...ingredient,
+					counter: 0,
+				}));
 			});
 	},
 });
@@ -44,4 +73,5 @@ export const {
 	getIngredientsError,
 	getIngredientsData,
 } = ingredientsSlice.selectors;
+export const { incrementCounter, decrementCounter } = ingredientsSlice.actions;
 export default ingredientsSlice.reducer;

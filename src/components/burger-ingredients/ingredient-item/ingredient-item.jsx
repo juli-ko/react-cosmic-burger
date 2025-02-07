@@ -11,9 +11,8 @@ import styles from './ingredient-item.module.scss';
 
 const IngredientItem = ({ itemData }) => {
 	const dispatch = useDispatch();
-	const [count, setcount] = useState(0);
+	const count = itemData.counter;
 	const openModal = (data) => {
-		setcount((prev) => (prev += 1));
 		dispatch(addToDetails(data));
 	};
 
