@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import IngredientGroup from './ingredient-group/ingredient-group';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -23,10 +23,32 @@ const BurgerIngredients = () => {
 	const data = useSelector(getIngredientsData);
 	const selectedIngredient = useSelector(getItemData);
 	const [currentType, setCurrentType] = React.useState(0);
+	const ingredientsGroupsRefs = useRef([]);
+	const scrollContainerRef = useRef(null);
 
 	const closeModal = () => {
 		dispatch(removeFromDetails());
 	};
+
+	const handleScroll = () => {
+		const scrollContainerTop =
+			scrollContainerRef.current.getBoundingClientRect().top;
+		const distances = ingredientsGroupsRefs.current.map((ref) =>
+			Math.abs(ref.current.getBoundingClientRect().top - scrollContainerTop)
+		);
+		console.log(distances);
+		const closestIndex = distances.indexOf(Math.min(...distances));
+		setCurrentType(closestIndex);
+	};
+
+	useEffect(() => {
+		const container = scrollContainerRef.current;
+		container.addEventListener('scroll', handleScroll);
+
+		return () => {
+			container.removeEventListener('scroll', handleScroll);
+		};
+	}, []);
 
 	return (
 		<section className={`${styles.ingredientsWrapper} mr-5 ml-5`}>
@@ -42,13 +64,19 @@ const BurgerIngredients = () => {
 					</Tab>
 				))}
 			</div>
-			<div className={styles.groupsBlock}>
-				{TYPES.map((type) => (
-					<IngredientGroup
-						key={type.value}
-						typeName={type.name}
-						data={data.filter((item) => item.type === type.value)}
-					/>
+			<div className={styles.groupsBlock} ref={scrollContainerRef}>
+				{TYPES.map((type, index) => (
+					<div
+						key={index}
+						ref={(el) =>
+							(ingredientsGroupsRefs.current[index] = { current: el })
+						}>
+						<IngredientGroup
+							key={type.value}
+							typeName={type.name}
+							data={data.filter((item) => item.type === type.value)}
+						/>
+					</div>
 				))}
 			</div>
 

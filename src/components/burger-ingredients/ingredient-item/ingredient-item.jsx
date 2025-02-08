@@ -1,5 +1,4 @@
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
 import { useDrag } from 'react-dnd';
 import {
 	CurrencyIcon,
