@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../prop-types/prop-types';
 import {
 	ConstructorElement,
 	DragIcon,
@@ -60,3 +62,8 @@ const DragIngredient = ({ itemData, index }) => {
 };
 
 export default DragIngredient;
+
+DragIngredient.propTypes = {
+	itemData: ingredientPropType,
+	index: PropTypes.number.isRequired,
+};

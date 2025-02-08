@@ -4,7 +4,6 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.scss';
-import { dataPropType } from '../../prop-types/prop-types';
 import { getIngredientsData } from '../../services/ingredientsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -90,5 +89,3 @@ const BurgerIngredients = () => {
 };
 
 export default BurgerIngredients;
-
-BurgerIngredients.propTypes = dataPropType.isRequired;

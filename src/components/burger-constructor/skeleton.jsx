@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.scss';
 
 const Skeleton = ({ text, position = '', borderColor = 'transparent' }) => {
@@ -15,3 +16,9 @@ const Skeleton = ({ text, position = '', borderColor = 'transparent' }) => {
 };
 
 export default Skeleton;
+
+Skeleton.propTypes = {
+	text: PropTypes.string.isRequired,
+	position: PropTypes.string,
+	borderColor: PropTypes.string,
+};
