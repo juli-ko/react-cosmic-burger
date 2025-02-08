@@ -30,6 +30,14 @@ const constructorSlice = createSlice({
 				);
 			},
 		},
+		moveItem: {
+			reducer: (state, action) => {
+				const { dragIndex, hoverIndex } = action.payload;
+				const dragItem = state.items[dragIndex];
+				state.items.splice(dragIndex, 1);
+				state.items.splice(hoverIndex, 0, dragItem);
+			},
+		},
 	},
 	selectors: {
 		getConstructorIngredients: (state) => state.items,
@@ -53,6 +61,6 @@ export const {
 	getConstructorBun,
 	getConstructorIds,
 } = constructorSlice.selectors;
-export const { addToConstructor, removeItemFromConstructor } =
+export const { addToConstructor, removeItemFromConstructor, moveItem } =
 	constructorSlice.actions;
 export default constructorSlice.reducer;

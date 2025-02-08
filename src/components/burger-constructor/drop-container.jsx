@@ -1,21 +1,16 @@
-import { useDrop, useDrag } from 'react-dnd';
+import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	ConstructorElement,
-	DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import {
-	incrementCounter,
-	decrementCounter,
-} from '../../services/ingredientsSlice';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { incrementCounter } from '../../services/ingredientsSlice';
 import {
 	getConstructorBun,
 	getConstructorIngredients,
-	removeItemFromConstructor,
 	addToConstructor,
 } from '../../services/constructorSlice';
 import Skeleton from './skeleton';
+import DragIngredient from './drag-ingredient';
 import styles from './burger-constructor.module.scss';
+import { useRef } from 'react';
 
 const DropContainer = ({ type, position = '' }) => {
 	const dispatch = useDispatch();
@@ -32,22 +27,9 @@ const DropContainer = ({ type, position = '' }) => {
 		}),
 	});
 
-	// const [{ opacity }, dragInsideConstructorRef] = useDrag({
-	// 	type: 'item',
-	// 	item: { ...item },
-	// 	collect: (monitor) => ({
-	// 		opacity: monitor.isDragging() ? 0 : 1,
-	// 	}),
-	// });
-
 	const onDropHandler = (item) => {
 		dispatch(addToConstructor(item));
 		dispatch(incrementCounter(item._id));
-	};
-
-	const handleRemove = (item) => {
-		dispatch(removeItemFromConstructor(item));
-		dispatch(decrementCounter(item._id));
 	};
 
 	const borderColor = isHover ? 'lightgreen' : 'transparent';
@@ -80,16 +62,8 @@ const DropContainer = ({ type, position = '' }) => {
 							borderColor={borderColor}
 						/>
 					)}
-					{ingredients.map((item) => (
-						<div className={styles.ingredient} key={item.key}>
-							<DragIcon type='primary' />
-							<ConstructorElement
-								text={item.name}
-								price={item.price}
-								thumbnail={item.image}
-								handleClose={() => handleRemove(item)}
-							/>
-						</div>
+					{ingredients.map((item, index) => (
+						<DragIngredient key={item.key} itemData={item} index={index} />
 					))}
 				</div>
 			)}
