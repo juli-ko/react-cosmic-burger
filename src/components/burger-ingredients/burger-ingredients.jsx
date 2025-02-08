@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import IngredientGroup from './ingredient-group/ingredient-group';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.scss';
-import { dataPropType } from '../../prop-types/prop-types';
+import { getIngredientsData } from '../../services/ingredientsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	getItemData,
+	removeFromDetails,
+} from '../../services/ingredientDetailsSlice';
 
 const TYPES = [
 	{ name: 'Булки', value: 'bun' },
@@ -12,17 +17,37 @@ const TYPES = [
 	{ name: 'Начинки', value: 'main' },
 ];
 
-const BurgerIngredients = ({ data }) => {
+const BurgerIngredients = () => {
+	const dispatch = useDispatch();
+	const data = useSelector(getIngredientsData);
+	const selectedIngredient = useSelector(getItemData);
 	const [currentType, setCurrentType] = React.useState(0);
-	const [selectedIngredient, setSelectedIngredient] = useState(null);
-
-	const openModal = (ingredient) => {
-		setSelectedIngredient(ingredient);
-	};
+	const ingredientsGroupsRefs = useRef([]);
+	const scrollContainerRef = useRef(null);
 
 	const closeModal = () => {
-		setSelectedIngredient(null);
+		dispatch(removeFromDetails());
 	};
+
+	const handleScroll = () => {
+		const scrollContainerTop =
+			scrollContainerRef.current.getBoundingClientRect().top;
+		const distances = ingredientsGroupsRefs.current.map((ref) =>
+			Math.abs(ref.current.getBoundingClientRect().top - scrollContainerTop)
+		);
+		console.log(distances);
+		const closestIndex = distances.indexOf(Math.min(...distances));
+		setCurrentType(closestIndex);
+	};
+
+	useEffect(() => {
+		const container = scrollContainerRef.current;
+		container.addEventListener('scroll', handleScroll);
+
+		return () => {
+			container.removeEventListener('scroll', handleScroll);
+		};
+	}, []);
 
 	return (
 		<section className={`${styles.ingredientsWrapper} mr-5 ml-5`}>
@@ -38,20 +63,25 @@ const BurgerIngredients = ({ data }) => {
 					</Tab>
 				))}
 			</div>
-			<div className={styles.groupsBlock}>
-				{TYPES.map((type) => (
-					<IngredientGroup
-						key={type.value}
-						typeName={type.name}
-						data={data.filter((item) => item.type === type.value)}
-						onClick={openModal}
-					/>
+			<div className={styles.groupsBlock} ref={scrollContainerRef}>
+				{TYPES.map((type, index) => (
+					<div
+						key={index}
+						ref={(el) =>
+							(ingredientsGroupsRefs.current[index] = { current: el })
+						}>
+						<IngredientGroup
+							key={type.value}
+							typeName={type.name}
+							data={data.filter((item) => item.type === type.value)}
+						/>
+					</div>
 				))}
 			</div>
 
 			{selectedIngredient && (
 				<Modal header='Детали ингредиента' onClose={closeModal}>
-					<IngredientDetails itemData={selectedIngredient}></IngredientDetails>
+					<IngredientDetails></IngredientDetails>
 				</Modal>
 			)}
 		</section>
@@ -59,5 +89,3 @@ const BurgerIngredients = ({ data }) => {
 };
 
 export default BurgerIngredients;
-
-BurgerIngredients.propTypes = dataPropType.isRequired;

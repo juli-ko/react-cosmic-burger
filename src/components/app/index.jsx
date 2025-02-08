@@ -1,29 +1,26 @@
-import { useState, useEffect } from 'react';
-import { fetchIngredients } from '../../utils/burger-api';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+import {
+	getIngredientsData,
+	getIngredientsError,
+	getIngredientsLoading,
+	loadIngredients,
+} from '../../services/ingredientsSlice';
 import styles from './app.module.scss';
 
 export const App = () => {
-	const [data, setData] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
-	const [hasError, setHasError] = useState(false);
+	const dispatch = useDispatch();
+	const loading = useSelector(getIngredientsLoading);
+	const hasError = useSelector(getIngredientsError);
+	const data = useSelector(getIngredientsData);
 
 	useEffect(() => {
-		const getIngredients = async () => {
-			try {
-				const result = await fetchIngredients();
-				setData(result.data);
-			} catch (error) {
-				setHasError(true);
-				console.error(error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		getIngredients();
+		dispatch(loadIngredients());
 	}, []);
 
 	return (
@@ -35,14 +32,14 @@ export const App = () => {
 						Ошибка при загрузке данных...
 					</p>
 				)}
-				{isLoading && data.length <= 0 && (
+				{loading && data.length <= 0 && (
 					<p className='text text_type_main-default'>Загрузка...</p>
 				)}
-				{!isLoading && !hasError && data.length > 0 && (
-					<>
-						<BurgerIngredients data={data} />
-						<BurgerConstructor data={data} />
-					</>
+				{!loading && !hasError && (
+					<DndProvider backend={HTML5Backend}>
+						<BurgerIngredients />
+						<BurgerConstructor />
+					</DndProvider>
 				)}
 			</main>
 		</div>
