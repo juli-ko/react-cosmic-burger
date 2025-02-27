@@ -4,12 +4,16 @@ const checkResponse = (res) => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
+function request(url, options) {
+	return fetch(`${API_URL}${url}`, options).then(checkResponse);
+}
+
 export const fetchIngredients = () => {
-	return fetch(`${API_URL}/ingredients`).then(checkResponse);
+	return request('/ingredients');
 };
 
 export const fetchOrder = (idsArr) => {
-	return fetch(`${API_URL}/orders`, {
+	return request('/orders', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -17,5 +21,5 @@ export const fetchOrder = (idsArr) => {
 		body: JSON.stringify({
 			ingredients: idsArr,
 		}),
-	}).then(checkResponse);
+	});
 };

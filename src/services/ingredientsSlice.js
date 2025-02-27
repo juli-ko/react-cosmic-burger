@@ -42,6 +42,9 @@ const ingredientsSlice = createSlice({
 				ingredient.counter -= 1;
 			}
 		},
+		clearCounters: (state, action) => {
+			state.ingredients.map((ingredient) => (ingredient.counter = 0));
+		},
 	},
 	initialState,
 	selectors: {
@@ -73,5 +76,6 @@ export const {
 	getIngredientsError,
 	getIngredientsData,
 } = ingredientsSlice.selectors;
-export const { incrementCounter, decrementCounter } = ingredientsSlice.actions;
+export const { incrementCounter, decrementCounter, clearCounters } =
+	ingredientsSlice.actions;
 export default ingredientsSlice.reducer;

@@ -7,10 +7,7 @@ const initialState = {
 	loading: false,
 };
 
-export const loadOrders = createAsyncThunk(
-	'orders/loadOrders',
-	async (idsArr) => fetchOrder(idsArr)
-);
+export const loadOrders = createAsyncThunk('orders/loadOrders', fetchOrder);
 
 const orderDetailsSlice = createSlice({
 	name: 'orders',

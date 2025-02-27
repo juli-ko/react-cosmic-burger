@@ -38,6 +38,12 @@ const constructorSlice = createSlice({
 				state.items.splice(hoverIndex, 0, dragItem);
 			},
 		},
+		clearConstructor: {
+			reducer: (state, action) => {
+				state.items = [];
+				state.bun = null;
+			},
+		},
 	},
 	selectors: {
 		getConstructorIngredients: (state) => state.items,
@@ -61,6 +67,10 @@ export const {
 	getConstructorBun,
 	getConstructorIds,
 } = constructorSlice.selectors;
-export const { addToConstructor, removeItemFromConstructor, moveItem } =
-	constructorSlice.actions;
+export const {
+	addToConstructor,
+	removeItemFromConstructor,
+	moveItem,
+	clearConstructor,
+} = constructorSlice.actions;
 export default constructorSlice.reducer;

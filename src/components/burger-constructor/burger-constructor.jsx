@@ -11,8 +11,10 @@ import {
 	getConstructorBun,
 	getConstructorIngredients,
 	getConstructorIds,
+	clearConstructor,
 } from '../../services/constructorSlice';
 import { loadOrders, removeOrderNum } from '../../services/orderDetailsSlice';
+import { clearCounters } from '../../services/ingredientsSlice';
 import styles from './burger-constructor.module.scss';
 
 const BurgerConstructor = () => {
@@ -23,7 +25,16 @@ const BurgerConstructor = () => {
 	const [modalIsActive, setModalActive] = useState(false);
 
 	const handleClick = () => {
-		dispatch(loadOrders(constructorIds));
+		dispatch(loadOrders(constructorIds))
+			.unwrap()
+			.then(() => {
+				dispatch(clearConstructor());
+				dispatch(clearCounters());
+			})
+			.catch((error) => {
+				console.error('Ошибка при оформлении заказа:', error);
+			});
+
 		setModalActive(true);
 	};
 
