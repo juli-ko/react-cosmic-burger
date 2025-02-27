@@ -12,6 +12,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
+	width: 100%;
+	min-width: 570px;
 }
 
 .ingredientsScroll {
@@ -58,4 +60,10 @@
 .total {
 	display: flex;
 	align-items: center;
+}
+
+.skeleton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

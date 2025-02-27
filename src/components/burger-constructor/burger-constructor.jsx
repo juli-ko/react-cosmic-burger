@@ -1,65 +1,71 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-	ConstructorElement,
-	DragIcon,
 	CurrencyIcon,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
+import DropContainer from './drop-container';
 import OrderDetails from '../order-details/order-details';
-import { dataPropType } from '../../prop-types/prop-types';
-
+import {
+	getConstructorBun,
+	getConstructorIngredients,
+	getConstructorIds,
+	clearConstructor,
+} from '../../services/constructorSlice';
+import { loadOrders, removeOrderNum } from '../../services/orderDetailsSlice';
+import { clearCounters } from '../../services/ingredientsSlice';
 import styles from './burger-constructor.module.scss';
 
-const BurgerConstructor = ({ data }) => {
+const BurgerConstructor = () => {
+	const dispatch = useDispatch();
+	const ingredients = useSelector(getConstructorIngredients);
+	const bun = useSelector(getConstructorBun);
+	const constructorIds = useSelector(getConstructorIds);
 	const [modalIsActive, setModalActive] = useState(false);
-	const bun = data[0];
-	const chosenIngredients = [1, 4, 6, 13, 13];
 
 	const handleClick = () => {
+		dispatch(loadOrders(constructorIds))
+			.unwrap()
+			.then(() => {
+				dispatch(clearConstructor());
+				dispatch(clearCounters());
+			})
+			.catch((error) => {
+				console.error('Ошибка при оформлении заказа:', error);
+			});
+
 		setModalActive(true);
 	};
 
 	const onClose = () => {
+		dispatch(removeOrderNum());
 		setModalActive(false);
 	};
 
+	const totalSum = useCallback(() => {
+		let sum = 0;
+		if (bun) {
+			sum += bun.price * 2;
+		}
+		if (ingredients.length > 0) {
+			ingredients.forEach((element) => {
+				sum += element.price;
+			});
+		}
+		return sum;
+	}, [ingredients, bun]);
+
 	return (
-		<section className={`${styles.ingredientsWrapper} mr-5 ml-5 pt-25`}>
-			<div className={`${styles.ingredient} mb-4 mr-4 ml-5`}>
-				<ConstructorElement
-					type='top'
-					isLocked={true}
-					text={`${bun.name} (верх)`}
-					price={bun.price}
-					thumbnail={bun.image}
-				/>
-			</div>
-			<div className={`${styles.ingredientsScroll} mb-4 ml-5 p-2`}>
-				{chosenIngredients.map((chosenId, id) => (
-					<div className={styles.ingredient} key={id}>
-						<DragIcon type='primary' />
-						<ConstructorElement
-							key={data[chosenId].id}
-							text={data[chosenId].name}
-							price={data[chosenId].price}
-							thumbnail={data[chosenId].image}
-						/>
-					</div>
-				))}
-			</div>
-			<div className={`${styles.ingredient} mr-4`}>
-				<ConstructorElement
-					type='bottom'
-					isLocked={true}
-					text={`${bun.name} (низ)`}
-					price={bun.price}
-					thumbnail={bun.image}
-				/>
-			</div>
+		<section className={`${styles.ingredientsWrapper} pt-25`}>
+			<DropContainer type='bun' position='top'></DropContainer>
+			<DropContainer type='ingredient'></DropContainer>
+			<DropContainer type='bun' position='bottom'></DropContainer>
 			<div className={`${styles.info} mt-10`}>
 				<div className={`${styles.total} mr-10`}>
-					<span className='text text_type_digits-medium mr-2'>610</span>
+					<span className='text text_type_digits-medium mr-2'>
+						{totalSum()}
+					</span>
 					<CurrencyIcon type='primary' />
 				</div>
 				<Button
@@ -72,7 +78,7 @@ const BurgerConstructor = ({ data }) => {
 			</div>
 			{modalIsActive && (
 				<Modal onClose={onClose}>
-					<OrderDetails orderNumber='034536'></OrderDetails>
+					<OrderDetails></OrderDetails>
 				</Modal>
 			)}
 		</section>
@@ -80,5 +86,3 @@ const BurgerConstructor = ({ data }) => {
 };
 
 export default BurgerConstructor;
-
-BurgerConstructor.propTypes = dataPropType.isRequired;
