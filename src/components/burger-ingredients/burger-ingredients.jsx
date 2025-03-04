@@ -1,15 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import IngredientGroup from './ingredient-group/ingredient-group';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.scss';
 import { getIngredientsData } from '../../services/ingredientsSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-	getItemData,
-	removeFromDetails,
-} from '../../services/ingredientDetailsSlice';
+import {  useSelector } from 'react-redux';
 
 const TYPES = [
 	{ name: 'Булки', value: 'bun' },
@@ -18,16 +12,11 @@ const TYPES = [
 ];
 
 const BurgerIngredients = () => {
-	const dispatch = useDispatch();
 	const data = useSelector(getIngredientsData);
-	const selectedIngredient = useSelector(getItemData);
+
 	const [currentType, setCurrentType] = React.useState(0);
 	const ingredientsGroupsRefs = useRef([]);
 	const scrollContainerRef = useRef(null);
-
-	const closeModal = () => {
-		dispatch(removeFromDetails());
-	};
 
 	const handleScroll = () => {
 		const scrollContainerTop =
@@ -78,12 +67,6 @@ const BurgerIngredients = () => {
 					</div>
 				))}
 			</div>
-
-			{selectedIngredient && (
-				<Modal header='Детали ингредиента' onClose={closeModal}>
-					<IngredientDetails></IngredientDetails>
-				</Modal>
-			)}
 		</section>
 	);
 };

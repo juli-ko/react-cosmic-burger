@@ -1,19 +1,16 @@
-import { useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { useDrag } from 'react-dnd';
 import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropType } from '../../../prop-types/prop-types';
-import { addToDetails } from '../../../services/ingredientDetailsSlice';
 import styles from './ingredient-item.module.scss';
 
 const IngredientItem = ({ itemData }) => {
-	const dispatch = useDispatch();
+	const location = useLocation();
 	const count = itemData.counter;
-	const openModal = (data) => {
-		dispatch(addToDetails(data));
-	};
+	const ingredientId = itemData._id;
 
 	const [{ opacity }, dragRef] = useDrag({
 		type: itemData.type === 'bun' ? 'bun' : 'ingredient',
@@ -24,11 +21,13 @@ const IngredientItem = ({ itemData }) => {
 	});
 
 	return (
-		<div
+		<Link
+			key={ingredientId}
+			to={`/ingredients/${ingredientId}`}
+			state={{ background: location }}
 			ref={dragRef}
 			className={styles.ingredient}
-			style={{ opacity }}
-			onClick={() => openModal(itemData)}>
+			style={{ opacity }}>
 			{count > 0 && <Counter count={count} size='default' extraClass='m-1' />}
 			<img src={itemData.image} alt={itemData.name} />
 			<div className={`${styles.currencyBlock} p-2`}>
@@ -38,7 +37,7 @@ const IngredientItem = ({ itemData }) => {
 				<CurrencyIcon type='primary' />
 			</div>
 			<h3 className='text text_type_main-default'>{itemData.name}</h3>
-		</div>
+		</Link>
 	);
 };
 

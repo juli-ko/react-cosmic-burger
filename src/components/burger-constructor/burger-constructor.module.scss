@@ -14,6 +14,7 @@
 	justify-content: flex-end;
 	width: 100%;
 	min-width: 570px;
+	user-select: none;
 }
 
 .ingredientsScroll {
@@ -27,6 +28,10 @@
 	overflow-y: scroll;
 	scrollbar-color: auto;
 	scrollbar-width: auto;
+
+	.ingredient {
+		cursor: pointer;
+	}
 
 	&::-webkit-scrollbar {
 		background-color: #2f2f37;
@@ -66,4 +71,5 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	user-select: none;
 }

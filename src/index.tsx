@@ -11,7 +11,7 @@ const root = createRoot(domNode);
 root.render(
 	<StrictMode>
 		<Provider store={store}>
-			<Router>
+			<Router basename='/'>
 				<App />
 			</Router>
 		</Provider>
