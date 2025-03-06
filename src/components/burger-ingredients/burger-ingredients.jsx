@@ -3,7 +3,7 @@ import IngredientGroup from './ingredient-group/ingredient-group';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.scss';
 import { getIngredientsData } from '../../services/ingredientsSlice';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const TYPES = [
 	{ name: 'Булки', value: 'bun' },
