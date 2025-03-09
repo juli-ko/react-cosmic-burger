@@ -1,4 +1,6 @@
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import { Home } from '../../pages/home/Home';
 import Modal from '../modal/modal';
@@ -8,14 +10,19 @@ import { Login } from '../../pages/auth-pages/Login';
 import { Register } from '../../pages/auth-pages/Register';
 import { ForgotPassword } from '../../pages/auth-pages/ForgotPassword';
 import { ResetPassword } from '../../pages/auth-pages/ResetPassword';
+import { checkUserAuth } from '../../services/userSlice';
 
 export const App = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const background = location.state && location.state.background;
 
 	const handleModalClose = () => navigate(-1);
-	console.log(background);
+
+	useEffect(() => {
+		dispatch(checkUserAuth());
+	}, []);
 
 	return (
 		<div className={styles.page}>

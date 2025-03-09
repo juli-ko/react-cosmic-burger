@@ -1,9 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchLogin, fetchLogout, fetchRegister } from '../utils/burger-api';
+import {
+	fetchLogin,
+	fetchLogout,
+	fetchRegister,
+	getUser,
+} from '../utils/burger-api';
 
 const initialState = {
 	user: null,
-	isUserAuth: false,
+	isAuthChecked: false,
 };
 
 export const register = createAsyncThunk('user/register', async (formData) =>
@@ -16,9 +21,15 @@ export const logout = createAsyncThunk('user/logout', async () => {
 	await fetchLogout();
 });
 export const checkUserAuth = createAsyncThunk(
-	'user/checkUserAuth',
-	async () => {
-		return;
+	'user/checkAuth',
+	async (_, { dispatch }) => {
+		if (localStorage.getItem('accessToken')) {
+			getUser()
+				.then((res) => dispatch(setUser(res.user)))
+				.finally(() => dispatch(setAuthChecked(true)));
+		} else {
+			dispatch(setAuthChecked(true));
+		}
 	}
 );
 
@@ -34,7 +45,7 @@ const userSlice = createSlice({
 	},
 	initialState,
 	selectors: {
-		getUser: (state) => state.user,
+		getUserInfo: (state) => state.user,
 	},
 	extraReducers: (builder) => {
 		builder
@@ -50,6 +61,6 @@ const userSlice = createSlice({
 	},
 });
 
-export const { getUser } = userSlice.selectors;
+export const { getUserInfo } = userSlice.selectors;
 export const { setUser, setAuthChecked } = userSlice.actions;
 export default userSlice.reducer;
