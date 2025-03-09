@@ -1,0 +1,46 @@
+.profilePage {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	height: 100vh;
+}
+.navigation {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.form {
+	text-align: end;
+}
+
+.link {
+	text-decoration: none;
+	width: 320px;
+	height: 64px;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.activeLink {
+	color: white;
+	cursor: default;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+.cancelBtn {
+	color: #4c4cff;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	width: 74px;
+	height: 56px;
+	margin-right: 20px;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

@@ -13,6 +13,7 @@ import { ResetPassword } from '../../pages/auth-pages/ResetPassword';
 import { checkUserAuth } from '../../services/userSlice';
 import { OnlyAuth, OnlyUnAuth } from './protected-route';
 import { Profile } from '../../pages/profile/Profile';
+import { ProfileUser } from '../../pages/profile/ProfileUser';
 
 export const App = () => {
 	const dispatch = useDispatch();
@@ -44,10 +45,10 @@ export const App = () => {
 					path='/reset-password'
 					element={<OnlyUnAuth component={<ResetPassword />} />}
 				/>
-				<Route
-					path='/profile'
-					element={<OnlyAuth component={<Profile/>} />}
-				/>
+				<Route path='/profile' element={<OnlyAuth component={<Profile />} />}>
+					<Route index element={<ProfileUser />} />
+					<Route path='orders' element={''} />
+				</Route>
 				<Route
 					path='/ingredients/:ingredientId'
 					element={<IngredientDetails />}

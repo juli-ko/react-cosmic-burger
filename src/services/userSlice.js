@@ -4,6 +4,7 @@ import {
 	fetchLogout,
 	fetchRegister,
 	getUser,
+	refreshUser,
 } from '../utils/burger-api';
 
 const initialState = {
@@ -20,6 +21,12 @@ export const login = createAsyncThunk('user/login', async (formData) =>
 export const logout = createAsyncThunk('user/logout', async () => {
 	await fetchLogout();
 });
+export const refresh = createAsyncThunk(
+	'user/refreshUser',
+	async (formData) => {
+		return await refreshUser(formData);
+	}
+);
 
 export const checkUserAuth = createAsyncThunk(
 	'user/checkAuth',
@@ -59,6 +66,9 @@ const userSlice = createSlice({
 			})
 			.addCase(logout.fulfilled, (state, action) => {
 				state.user = null;
+			})
+			.addCase(refresh.fulfilled, (state, action) => {
+				state.user = action.payload.user;
 			});
 	},
 });

@@ -44,11 +44,7 @@ export const Login = () => {
 					name={'password'}
 					extraClass='mb-6'
 				/>
-				<Button
-					htmlType='submit'
-					type='primary'
-					size='medium'
-					onClick={onclick}>
+				<Button htmlType='submit' type='primary' size='medium'>
 					Войти
 				</Button>
 				<div className={styles.links}>
