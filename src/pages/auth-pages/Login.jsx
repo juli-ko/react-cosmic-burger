@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
 	PasswordInput,
 	EmailInput,
@@ -6,31 +7,48 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
+import { login } from '../../services/userSlice';
 
 export const Login = () => {
-	const [value, setValue] = useState('');
-	const [valueEmail, setValueEmail] = useState('');
+	const dispatch = useDispatch();
+	const [formData, setFormData] = useState({
+		email: '',
+		password: '',
+	});
 	const onChange = (e) => {
-		setValue(e.target.value);
+		const { value, name } = e.target;
+		setFormData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
 	};
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		dispatch(login(formData));
+	};
+
 	return (
 		<div className={styles.formPage}>
-			<form className={styles.form}>
+			<form className={styles.form} onSubmit={handleSubmit}>
 				<h1 className='text text_type_main-medium mb-6'>Вход</h1>
 				<EmailInput
 					onChange={onChange}
-					value={valueEmail}
+					value={formData.email}
 					name={'email'}
 					isIcon={true}
 					extraClass='mb-6'
 				/>
 				<PasswordInput
 					onChange={onChange}
-					value={value}
+					value={formData.password}
 					name={'password'}
 					extraClass='mb-6'
 				/>
-				<Button htmlType='button' type='primary' size='medium'>
+				<Button
+					htmlType='submit'
+					type='primary'
+					size='medium'
+					onClick={onclick}>
 					Войти
 				</Button>
 				<div className={styles.links}>

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import {
 	PasswordInput,
 	EmailInput,
@@ -7,44 +7,59 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
+import { useDispatch } from 'react-redux';
+import { register } from '../../services/userSlice';
 
 export const Register = () => {
-	const [value, setValue] = useState('');
-	const [valueEmail, setValueEmail] = useState('');
-	const [valueName, setValueName] = useState('');
-	const inputRef = useRef();
-	const onChange = (e) => {
-		setValue(e.target.value);
+	const dispatch = useDispatch();
+	const [formData, setFormData] = useState({
+		name: '',
+		email: '',
+		password: '',
+	});
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		dispatch(register(formData));
 	};
+
+	const onChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
+	};
+
 	return (
 		<div className={styles.formPage}>
-			<form className={styles.form}>
+			<form className={styles.form} onSubmit={handleSubmit}>
 				<h1 className='text text_type_main-medium mb-6'>Регистрация</h1>
 				<Input
 					type={'text'}
 					placeholder={'Имя'}
-					value={valueName}
+					value={formData.name}
 					name={'name'}
+					onChange={onChange}
 					error={false}
-					ref={inputRef}
 					errorText={'Ошибка'}
 					size={'default'}
 					extraClass='mb-6'
 				/>
 				<EmailInput
 					onChange={onChange}
-					value={valueEmail}
+					value={formData.email}
 					name={'email'}
 					isIcon={true}
 					extraClass='mb-6'
 				/>
 				<PasswordInput
 					onChange={onChange}
-					value={value}
+					value={formData.password}
 					name={'password'}
 					extraClass='mb-6'
 				/>
-				<Button htmlType='button' type='primary' size='medium'>
+				<Button htmlType='submit' type='primary' size='medium'>
 					Зарегистрироваться
 				</Button>
 				<div className={styles.links}>
