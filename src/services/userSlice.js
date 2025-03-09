@@ -8,7 +8,7 @@ import {
 
 const initialState = {
 	user: null,
-	isAuthChecked: false,
+	isAuthChecked: false, // isAuthChecked флаг, показывающий что проверка токена произведена при этом результат проверки не имеет значения
 };
 
 export const register = createAsyncThunk('user/register', async (formData) =>
@@ -20,6 +20,7 @@ export const login = createAsyncThunk('user/login', async (formData) =>
 export const logout = createAsyncThunk('user/logout', async () => {
 	await fetchLogout();
 });
+
 export const checkUserAuth = createAsyncThunk(
 	'user/checkAuth',
 	async (_, { dispatch }) => {
@@ -46,6 +47,7 @@ const userSlice = createSlice({
 	initialState,
 	selectors: {
 		getUserInfo: (state) => state.user,
+		getUserAuth: (state) => state.isAuthChecked,
 	},
 	extraReducers: (builder) => {
 		builder
@@ -61,6 +63,6 @@ const userSlice = createSlice({
 	},
 });
 
-export const { getUserInfo } = userSlice.selectors;
+export const { getUserInfo, getUserAuth } = userSlice.selectors;
 export const { setUser, setAuthChecked } = userSlice.actions;
 export default userSlice.reducer;

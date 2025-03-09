@@ -11,6 +11,8 @@ import { Register } from '../../pages/auth-pages/Register';
 import { ForgotPassword } from '../../pages/auth-pages/ForgotPassword';
 import { ResetPassword } from '../../pages/auth-pages/ResetPassword';
 import { checkUserAuth } from '../../services/userSlice';
+import { OnlyAuth, OnlyUnAuth } from './protected-route';
+import { Profile } from '../../pages/profile/Profile';
 
 export const App = () => {
 	const dispatch = useDispatch();
@@ -29,10 +31,23 @@ export const App = () => {
 			<AppHeader />
 			<Routes location={background || location}>
 				<Route path='/' element={<Home />} />
-				<Route path='/login' element={<Login />} />
-				<Route path='/register' element={<Register />} />
-				<Route path='/forgot-password' element={<ForgotPassword />} />
-				<Route path='/reset-password' element={<ResetPassword />} />
+				<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
+				<Route
+					path='/register'
+					element={<OnlyUnAuth component={<Register />} />}
+				/>
+				<Route
+					path='/forgot-password'
+					element={<OnlyUnAuth component={<ForgotPassword />} />}
+				/>
+				<Route
+					path='/reset-password'
+					element={<OnlyUnAuth component={<ResetPassword />} />}
+				/>
+				<Route
+					path='/profile'
+					element={<OnlyAuth component={<Profile/>} />}
+				/>
 				<Route
 					path='/ingredients/:ingredientId'
 					element={<IngredientDetails />}
