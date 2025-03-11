@@ -18,8 +18,13 @@
 	text-decoration: none;
 	width: 320px;
 	height: 64px;
-	&:hover {
-		text-decoration: underline;
+	background-color: transparent;
+	border: none;
+	display: flex;
+	justify-content: start;
+	align-items: end;
+	p {
+		cursor: pointer;
 	}
 }
 

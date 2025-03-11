@@ -16,12 +16,15 @@ export const ProfileUser = () => {
 		...initialState,
 		password: '*****',
 	});
+	const [isChanged, setIsChanged] = useState(false);
+
 	const onChange = (e) => {
 		const { value, name } = e.target;
 		setFormData((prevData) => ({
 			...prevData,
 			[name]: value,
 		}));
+		setIsChanged(true);
 	};
 
 	const handleSubmit = (e) => {
@@ -59,17 +62,19 @@ export const ProfileUser = () => {
 				name={'password'}
 				extraClass='mb-6'
 			/>
-			<div className={styles.buttonsGroup}>
-				<button
-					className={`text text_type_main-default ${styles.cancelBtn}`}
-					htmlType='button'
-					onClick={handleCancel}>
-					Отмена
-				</button>
-				<Button htmlType='submit' type='primary' size='medium'>
-					Сохранить
-				</Button>
-			</div>
+			{isChanged && (
+				<div className={styles.buttonsGroup}>
+					<button
+						className={`text text_type_main-default ${styles.cancelBtn}`}
+						htmlType='button'
+						onClick={handleCancel}>
+						Отмена
+					</button>
+					<Button htmlType='submit' type='primary' size='medium'>
+						Сохранить
+					</Button>
+				</div>
+			)}
 		</form>
 	);
 };
