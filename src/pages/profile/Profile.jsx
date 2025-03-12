@@ -1,9 +1,4 @@
-import {
-	NavLink,
-	Outlet,
-	useMatch,
-	useNavigate
-} from 'react-router-dom';
+import { NavLink, Outlet, useMatch, useNavigate } from 'react-router-dom';
 import styles from './Profile.module.scss';
 import { logout } from '../../services/userSlice';
 import { useDispatch } from 'react-redux';

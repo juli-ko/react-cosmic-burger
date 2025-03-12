@@ -65,13 +65,13 @@ export const forgotPassword = (email) => {
 	});
 };
 
-export const resetPassword = (password, token) => {
+export const resetPassword = (formData) => {
 	return request('/password-reset/reset', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ password, token }),
+		body: JSON.stringify(formData),
 	});
 };
 

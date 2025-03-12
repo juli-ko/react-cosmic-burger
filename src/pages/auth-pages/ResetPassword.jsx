@@ -1,30 +1,47 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import {
 	PasswordInput,
 	Input,
 	Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
+import { resetPassword } from '../../utils/burger-api';
 
 export const ResetPassword = () => {
-	const [value, setValue] = useState('');
-	const [valueName, setValueName] = useState('');
-	const inputRef = useRef();
+	const navigate = useNavigate();
+	const [formData, setFormData] = useState({
+		password: '',
+		token: '',
+	});
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		try {
+			resetPassword(formData);
+			navigate('/login');
+		} catch {
+			alert('Возникла ошибка при восстановлении пароля');
+		}
+	};
 
 	const onChange = (e) => {
-		setValue(e.target.value);
+		const { value, name } = e.target;
+		setFormData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
 	};
 
 	return (
-		<div className={styles.formPage}>
+		<div className={styles.formPage} onSubmit={handleSubmit}>
 			<form className={styles.form}>
 				<h1 className='text text_type_main-medium mb-6'>
 					Восстановление пароля
 				</h1>
 				<PasswordInput
 					onChange={onChange}
-					value={value}
+					value={formData.password}
 					name={'password'}
 					extraClass='mb-6'
 					placeholder={'Введите новый пароль'}
@@ -32,15 +49,15 @@ export const ResetPassword = () => {
 				<Input
 					type={'text'}
 					placeholder={'Введите код из письма'}
-					value={valueName}
-					name={'name'}
+					value={formData.token}
+					name={'token'}
+					onChange={onChange}
 					error={false}
-					ref={inputRef}
 					errorText={'Ошибка'}
 					size={'default'}
 					extraClass='mb-6'
 				/>
-				<Button htmlType='button' type='primary' size='medium'>
+				<Button htmlType='submit' type='primary' size='medium'>
 					Сохранить
 				</Button>
 				<div className={styles.links}>

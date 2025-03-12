@@ -25,6 +25,16 @@ const Protected = ({ onlyUnAuth = false, component }) => {
 		return <Navigate to='/login' state={{ from: location }} />;
 	}
 
+	//На страницу ResetPassword можно попасть только со страницы ForgotPassword
+	if (onlyUnAuth && !user && location.pathname === '/reset-password') {
+		if (localStorage.getItem('visitedForgotPassword')) {
+			localStorage.removeItem('visitedForgotPassword');
+			return component;
+		} else {
+			return <Navigate to='/' />;
+		}
+	}
+
 	return component;
 };
 

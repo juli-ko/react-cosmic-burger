@@ -7,7 +7,7 @@ import {
 	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Profile.module.scss';
-import { getUserInfo, login, refresh } from '../../services/userSlice';
+import { getUserInfo, refresh } from '../../services/userSlice';
 
 export const ProfileUser = () => {
 	const dispatch = useDispatch();
