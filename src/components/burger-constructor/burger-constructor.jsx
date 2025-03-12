@@ -16,15 +16,30 @@ import {
 import { loadOrders, removeOrderNum } from '../../services/orderDetailsSlice';
 import { clearCounters } from '../../services/ingredientsSlice';
 import styles from './burger-constructor.module.scss';
+import { getUserInfo } from '../../services/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const ingredients = useSelector(getConstructorIngredients);
 	const bun = useSelector(getConstructorBun);
 	const constructorIds = useSelector(getConstructorIds);
 	const [modalIsActive, setModalActive] = useState(false);
+	const [ingredientsError, setIngredientsError] = useState(false);
+	const user = useSelector(getUserInfo);
 
 	const handleClick = () => {
+		if (!user) {
+			navigate('/login');
+			return;
+		}
+		if (!bun || ingredients.length === 0) {
+			setIngredientsError(true);
+			setModalActive(true);
+			return;
+		}
+
 		dispatch(loadOrders(constructorIds))
 			.unwrap()
 			.then(() => {
@@ -41,6 +56,7 @@ const BurgerConstructor = () => {
 	const onClose = () => {
 		dispatch(removeOrderNum());
 		setModalActive(false);
+		setIngredientsError(false);
 	};
 
 	const totalSum = useCallback(() => {
@@ -78,7 +94,7 @@ const BurgerConstructor = () => {
 			</div>
 			{modalIsActive && (
 				<Modal onClose={onClose}>
-					<OrderDetails></OrderDetails>
+					<OrderDetails ingredientsError={ingredientsError}></OrderDetails>
 				</Modal>
 			)}
 		</section>

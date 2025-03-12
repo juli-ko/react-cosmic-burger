@@ -32,7 +32,8 @@ export const ProfileUser = () => {
 		dispatch(refresh(formData));
 	};
 
-	const handleCancel = () => {
+	const handleCancel = (e) => {
+		e.preventDefault();
 		setFormData({ ...initialState, password: '*****' });
 	};
 
@@ -66,7 +67,6 @@ export const ProfileUser = () => {
 				<div className={styles.buttonsGroup}>
 					<button
 						className={`text text_type_main-default ${styles.cancelBtn}`}
-						htmlType='button'
 						onClick={handleCancel}>
 						Отмена
 					</button>

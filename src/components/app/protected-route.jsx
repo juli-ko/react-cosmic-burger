@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import loader from '../../../src/images/loader.svg';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getUserAuth, getUserInfo } from '../../services/userSlice';
 
@@ -9,9 +10,7 @@ const Protected = ({ onlyUnAuth = false, component }) => {
 
 	if (!isAuthChecked) {
 		// Запрос еще выполняется
-		// Выводим прелоадер в ПР
-		// Здесь возвращается просто null для экономии времени
-		return null;
+		return <img src={loader} alt='loader' />;
 	}
 
 	if (onlyUnAuth && user) {

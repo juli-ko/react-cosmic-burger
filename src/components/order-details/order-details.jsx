@@ -1,5 +1,6 @@
 import styles from './order-details.module.scss';
 import done from '../../images/done.svg';
+import loader from '../../images/loader.svg';
 import { useSelector } from 'react-redux';
 import {
 	getOrderNumber,
@@ -7,24 +8,41 @@ import {
 	getOrderError,
 } from '../../services/orderDetailsSlice';
 
-const OrderDetails = () => {
+const OrderDetails = ({ ingredientsError }) => {
 	const orderNumber = useSelector(getOrderNumber);
 	const loading = useSelector(getOrderLoading);
 	const hasError = useSelector(getOrderError);
 
+	if (ingredientsError) {
+		return (
+			<div className={styles.container}>
+				<p className='text text_type_main-medium'>Ошибка!</p>
+				<p className='text text_type_main-default mt-5'>
+					Добавте ингредиенты и булочку для оформления заказа
+				</p>
+			</div>
+		);
+	}
+
 	return (
 		<div className={styles.container}>
-			{loading && !hasError && (
-				<p className='text text_type_main-medium'>...формируем заказ</p>
-			)}
-			{hasError ? (
+			{hasError && (
 				<>
-					<p className='text text_type_main-medium'>Ошибка! </p>
+					<p className='text text_type_main-medium'>Ошибка!</p>
 					<p className='text text_type_main-default mt-5'>
-						Нужно добавить ингредиенты в конструктор
+						Неизвестная ошибка при оформлении заказа
 					</p>
 				</>
-			) : (
+			)}
+
+			{loading && !hasError && (
+				<>
+					<p className='text text_type_main-medium'>...формируем заказ</p>
+					<img src={loader} alt='loader' />
+				</>
+			)}
+
+			{!hasError && !loading && (
 				<>
 					<p className='text text_type_digits-large'>{orderNumber}</p>
 					<p className='text text_type_main-medium mt-8'>
