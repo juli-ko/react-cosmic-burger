@@ -2,6 +2,7 @@ import styles from './order-details.module.scss';
 import done from '../../images/done.svg';
 import loader from '../../images/loader.svg';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
 	getOrderNumber,
 	getOrderLoading,
@@ -62,3 +63,7 @@ const OrderDetails = ({ ingredientsError }) => {
 };
 
 export default OrderDetails;
+
+OrderDetails.propTypes = {
+	ingredientsError: PropTypes.bool.isRequired,
+};

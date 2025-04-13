@@ -24,7 +24,6 @@ const BurgerIngredients = () => {
 		const distances = ingredientsGroupsRefs.current.map((ref) =>
 			Math.abs(ref.current.getBoundingClientRect().top - scrollContainerTop)
 		);
-		console.log(distances);
 		const closestIndex = distances.indexOf(Math.min(...distances));
 		setCurrentType(closestIndex);
 	};

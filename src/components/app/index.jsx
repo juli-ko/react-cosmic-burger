@@ -1,4 +1,10 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import {
+	Routes,
+	Route,
+	useNavigate,
+	useLocation,
+	Navigate,
+} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
@@ -53,6 +59,7 @@ export const App = () => {
 					path='/ingredients/:ingredientId'
 					element={<IngredientDetails />}
 				/>
+				<Route path='*' element={<Navigate to='/' />} />
 			</Routes>
 
 			{background && (

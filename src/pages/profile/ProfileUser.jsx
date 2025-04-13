@@ -14,7 +14,7 @@ export const ProfileUser = () => {
 	const initialState = useSelector(getUserInfo);
 	const [formData, setFormData] = useState({
 		...initialState,
-		password: '*****',
+		password: '',
 	});
 	const [isChanged, setIsChanged] = useState(false);
 
@@ -34,7 +34,8 @@ export const ProfileUser = () => {
 
 	const handleCancel = (e) => {
 		e.preventDefault();
-		setFormData({ ...initialState, password: '*****' });
+		setFormData({ ...initialState, password: '' });
+		setIsChanged(false);
 	};
 
 	return (
