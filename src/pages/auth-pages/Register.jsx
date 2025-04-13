@@ -9,10 +9,11 @@ import { Link } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
 import { useDispatch } from 'react-redux';
 import { register } from '../../services/userSlice';
+import useForm from '../../hooks/useForm';
 
 export const Register = () => {
 	const dispatch = useDispatch();
-	const [formData, setFormData] = useState({
+	const { formData, handleChange } = useForm({
 		name: '',
 		email: '',
 		password: '',
@@ -21,14 +22,6 @@ export const Register = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(register(formData));
-	};
-
-	const onChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prevData) => ({
-			...prevData,
-			[name]: value,
-		}));
 	};
 
 	return (
@@ -40,21 +33,21 @@ export const Register = () => {
 					placeholder={'Имя'}
 					value={formData.name}
 					name={'name'}
-					onChange={onChange}
+					onChange={handleChange}
 					error={false}
 					errorText={'Ошибка'}
 					size={'default'}
 					extraClass='mb-6'
 				/>
 				<EmailInput
-					onChange={onChange}
+					onChange={handleChange}
 					value={formData.email}
 					name={'email'}
 					isIcon={true}
 					extraClass='mb-6'
 				/>
 				<PasswordInput
-					onChange={onChange}
+					onChange={handleChange}
 					value={formData.password}
 					name={'password'}
 					extraClass='mb-6'

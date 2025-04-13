@@ -7,10 +7,11 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
 import { resetPassword } from '../../utils/burger-api';
+import useForm from '../../hooks/useForm';
 
 export const ResetPassword = () => {
 	const navigate = useNavigate();
-	const [formData, setFormData] = useState({
+	const { formData, handleChange } = useForm({
 		password: '',
 		token: '',
 	});
@@ -25,14 +26,6 @@ export const ResetPassword = () => {
 		}
 	};
 
-	const onChange = (e) => {
-		const { value, name } = e.target;
-		setFormData((prevData) => ({
-			...prevData,
-			[name]: value,
-		}));
-	};
-
 	return (
 		<div className={styles.formPage} onSubmit={handleSubmit}>
 			<form className={styles.form}>
@@ -40,7 +33,7 @@ export const ResetPassword = () => {
 					Восстановление пароля
 				</h1>
 				<PasswordInput
-					onChange={onChange}
+					onChange={handleChange}
 					value={formData.password}
 					name={'password'}
 					extraClass='mb-6'
@@ -51,7 +44,7 @@ export const ResetPassword = () => {
 					placeholder={'Введите код из письма'}
 					value={formData.token}
 					name={'token'}
-					onChange={onChange}
+					onChange={handleChange}
 					error={false}
 					errorText={'Ошибка'}
 					size={'default'}

@@ -8,20 +8,15 @@ import {
 import { Link } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
 import { login } from '../../services/userSlice';
+import useForm from '../../hooks/useForm';
 
 export const Login = () => {
 	const dispatch = useDispatch();
-	const [formData, setFormData] = useState({
+	const { formData, handleChange } = useForm({
 		email: '',
 		password: '',
 	});
-	const onChange = (e) => {
-		const { value, name } = e.target;
-		setFormData((prevData) => ({
-			...prevData,
-			[name]: value,
-		}));
-	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(login(formData));
@@ -32,14 +27,14 @@ export const Login = () => {
 			<form className={styles.form} onSubmit={handleSubmit}>
 				<h1 className='text text_type_main-medium mb-6'>Вход</h1>
 				<EmailInput
-					onChange={onChange}
+					onChange={handleChange}
 					value={formData.email}
 					name={'email'}
 					isIcon={true}
 					extraClass='mb-6'
 				/>
 				<PasswordInput
-					onChange={onChange}
+					onChange={handleChange}
 					value={formData.password}
 					name={'password'}
 					extraClass='mb-6'

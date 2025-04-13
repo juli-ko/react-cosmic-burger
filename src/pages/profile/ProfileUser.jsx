@@ -8,34 +8,19 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Profile.module.scss';
 import { getUserInfo, refresh } from '../../services/userSlice';
+import useForm from '../../hooks/useForm';
 
 export const ProfileUser = () => {
 	const dispatch = useDispatch();
 	const initialState = useSelector(getUserInfo);
-	const [formData, setFormData] = useState({
+	const { formData, isChanged, handleChange, resetForm } = useForm({
 		...initialState,
 		password: '',
 	});
-	const [isChanged, setIsChanged] = useState(false);
-
-	const onChange = (e) => {
-		const { value, name } = e.target;
-		setFormData((prevData) => ({
-			...prevData,
-			[name]: value,
-		}));
-		setIsChanged(true);
-	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(refresh(formData));
-	};
-
-	const handleCancel = (e) => {
-		e.preventDefault();
-		setFormData({ ...initialState, password: '' });
-		setIsChanged(false);
 	};
 
 	return (
@@ -45,21 +30,21 @@ export const ProfileUser = () => {
 				placeholder={'Имя'}
 				value={formData.name}
 				name={'name'}
-				onChange={onChange}
+				onChange={handleChange}
 				error={false}
 				errorText={'Ошибка'}
 				size={'default'}
 				extraClass='mb-6'
 			/>
 			<EmailInput
-				onChange={onChange}
+				onChange={handleChange}
 				value={formData.email}
 				name={'email'}
 				isIcon={true}
 				extraClass='mb-6'
 			/>
 			<PasswordInput
-				onChange={onChange}
+				onChange={handleChange}
 				value={formData.password}
 				name={'password'}
 				extraClass='mb-6'
@@ -68,7 +53,7 @@ export const ProfileUser = () => {
 				<div className={styles.buttonsGroup}>
 					<button
 						className={`text text_type_main-default ${styles.cancelBtn}`}
-						onClick={handleCancel}>
+						onClick={resetForm}>
 						Отмена
 					</button>
 					<Button htmlType='submit' type='primary' size='medium'>

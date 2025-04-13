@@ -6,21 +6,19 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
 import { forgotPassword } from '../../utils/burger-api';
+import useForm from '../../hooks/useForm';
 
 export const ForgotPassword = () => {
 	const navigate = useNavigate();
-	const [email, setEmail] = useState('');
-
-	const onChange = (e) => {
-		setEmail(e.target.value);
-	};
+	const { formData, handleChange } = useForm({
+		email: '',
+	});
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		try {
-			forgotPassword(email);
-			localStorage.setItem('visitedForgotPassword', true);
-			navigate('/reset-password');
+			forgotPassword(formData.email);
+			navigate('/reset-password', { state: { fromForgotPassword: true } });
 		} catch {
 			alert('Возникла ошибка при восстановлении пароля');
 		}
@@ -33,8 +31,8 @@ export const ForgotPassword = () => {
 					Восстановление пароля
 				</h1>
 				<EmailInput
-					onChange={onChange}
-					value={email}
+					onChange={handleChange}
+					value={formData.email}
 					name={'email'}
 					isIcon={true}
 					extraClass='mb-6'
