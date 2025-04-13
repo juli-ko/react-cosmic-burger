@@ -13,13 +13,20 @@ import useForm from '../../hooks/useForm';
 export const ProfileUser = () => {
 	const dispatch = useDispatch();
 	const initialState = useSelector(getUserInfo);
-	const { formData, isChanged, handleChange, resetForm } = useForm({
-		...initialState,
-		password: '',
-	});
+	const { formData, isChanged, handleChange, resetForm, validateEmail } =
+		useForm({
+			...initialState,
+			password: '',
+		});
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		if (!validateEmail(formData.email)) {
+			alert('Введите корректный email');
+			return;
+		}
+
 		dispatch(refresh(formData));
 	};
 

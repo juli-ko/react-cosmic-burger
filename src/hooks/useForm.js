@@ -18,12 +18,23 @@ const useForm = (initialValues) => {
 		setIsChanged(false);
 	};
 
+	const validateEmail = (email) => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegex.test(email);
+	};
+
+	const validatePassword = (password) => {
+		return password.length > 5;
+	};
+
 	return {
 		formData,
 		isChanged,
 		setFormData,
 		handleChange,
 		resetForm,
+		validateEmail,
+		validatePassword,
 	};
 };
 

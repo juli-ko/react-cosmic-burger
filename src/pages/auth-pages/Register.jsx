@@ -13,7 +13,7 @@ import useForm from '../../hooks/useForm';
 
 export const Register = () => {
 	const dispatch = useDispatch();
-	const { formData, handleChange } = useForm({
+	const { formData, handleChange, validateEmail, validatePassword } = useForm({
 		name: '',
 		email: '',
 		password: '',
@@ -21,6 +21,16 @@ export const Register = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		if (!validateEmail(formData.email)) {
+			alert('Введите корректный email');
+			return;
+		}
+		if (!validatePassword(formData.password)) {
+			alert('Пароль должен быть длиннее 5 символов');
+			return;
+		}
+
 		dispatch(register(formData));
 	};
 

@@ -10,14 +10,20 @@ import useForm from '../../hooks/useForm';
 
 export const ForgotPassword = () => {
 	const navigate = useNavigate();
-	const { formData, handleChange } = useForm({
+	const { formData, handleChange, validateEmail } = useForm({
 		email: '',
 	});
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (!validateEmail(formData.email)) {
+			alert('Введите корректный email');
+			return;
+		}
+
 		try {
-			forgotPassword(formData.email);
+			await forgotPassword(formData.email);
 			navigate('/reset-password', { state: { fromForgotPassword: true } });
 		} catch {
 			alert('Возникла ошибка при восстановлении пароля');

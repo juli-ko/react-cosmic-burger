@@ -11,15 +11,26 @@ import useForm from '../../hooks/useForm';
 
 export const ResetPassword = () => {
 	const navigate = useNavigate();
-	const { formData, handleChange } = useForm({
+	const { formData, handleChange, validatePassword } = useForm({
 		password: '',
 		token: '',
 	});
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (!validatePassword(formData.password)) {
+			alert('Пароль должен быть длиннее 5 символов');
+			return;
+		}
+
+		if (!formData.token.trim()) {
+			alert('Введите код из письма');
+			return;
+		}
+
 		try {
-			resetPassword(formData);
+			await resetPassword(formData);
 			navigate('/login');
 		} catch {
 			alert('Возникла ошибка при восстановлении пароля');

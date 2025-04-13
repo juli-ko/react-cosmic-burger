@@ -12,14 +12,23 @@ import useForm from '../../hooks/useForm';
 
 export const Login = () => {
 	const dispatch = useDispatch();
-	const { formData, handleChange } = useForm({
+	const { formData, handleChange, validateEmail } = useForm({
 		email: '',
 		password: '',
 	});
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		dispatch(login(formData));
+
+		if (!validateEmail(formData.email)) {
+			alert('Введите корректный email');
+			return;
+		}
+		try {
+			await dispatch(login(formData)).unwrap();
+		} catch {
+			alert('Пользователь не найден');
+		}
 	};
 
 	return (
