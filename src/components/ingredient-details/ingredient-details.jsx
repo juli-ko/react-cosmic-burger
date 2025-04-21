@@ -1,9 +1,33 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import {
+	loadIngredients,
+	getIngredientsData,
+} from '../../services/ingredientsSlice';
 import styles from './ingredient-details.module.scss';
-import { getItemData } from '../../services/ingredientDetailsSlice';
 
 const IngredientDetails = () => {
-	const itemData = useSelector(getItemData);
+	const { ingredientId } = useParams();
+	const dispatch = useDispatch();
+	const ingredients = useSelector(getIngredientsData);
+	const itemData = ingredients.find((item) => item._id === ingredientId);
+
+	useEffect(() => {
+		if (!ingredients.length) {
+			dispatch(loadIngredients());
+		}
+	}, [dispatch, ingredients]);
+
+	if (!itemData) {
+		return (
+			<div className={styles.container}>
+				<p className='text text_type_main-medium'>
+					Загрузка данных об ингредиенте...
+				</p>
+			</div>
+		);
+	}
 
 	return (
 		<div className={styles.container}>

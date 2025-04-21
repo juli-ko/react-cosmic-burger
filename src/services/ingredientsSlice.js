@@ -75,6 +75,7 @@ export const {
 	getIngredientsLoading,
 	getIngredientsError,
 	getIngredientsData,
+	getIngredientById,
 } = ingredientsSlice.selectors;
 export const { incrementCounter, decrementCounter, clearCounters } =
 	ingredientsSlice.actions;

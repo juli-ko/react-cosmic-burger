@@ -1,0 +1,52 @@
+import { useSelector } from 'react-redux';
+import loader from '../../../src/images/loader.svg';
+import { Navigate, useLocation } from 'react-router-dom';
+import { getUserAuth, getUserInfo } from '../../services/userSlice';
+import PropTypes from 'prop-types';
+
+const Protected = ({ onlyUnAuth = false, component }) => {
+	const isAuthChecked = useSelector(getUserAuth);
+	const user = useSelector(getUserInfo);
+	const location = useLocation();
+
+	if (!isAuthChecked) {
+		// Запрос еще выполняется
+		return <img src={loader} alt='loader' />;
+	}
+
+	if (onlyUnAuth && user) {
+		// Пользователь авторизован, но роут предназначен для неавторизованного пользователя
+		// Делаем редирект на главную страницу или на тот адрес, что записан в location.state.from
+		const { from } = location.state || { from: { pathname: '/' } };
+		return <Navigate to={from} />;
+	}
+
+	if (!onlyUnAuth && !user) {
+		return <Navigate to='/login' state={{ from: location }} />;
+	}
+
+	//На страницу ResetPassword можно попасть только со страницы ForgotPassword
+	if (onlyUnAuth && !user && location.pathname === '/reset-password') {
+		if (location.state?.fromForgotPassword) {
+			return component;
+		} else {
+			return <Navigate to='/' />;
+		}
+	}
+
+	return component;
+};
+
+export const OnlyAuth = Protected;
+export const OnlyUnAuth = ({ component }) => (
+	<Protected onlyUnAuth={true} component={component} />
+);
+
+Protected.propTypes = {
+	onlyUnAuth: PropTypes.bool,
+	component: PropTypes.element.isRequired,
+};
+
+OnlyUnAuth.propTypes = {
+	component: PropTypes.element.isRequired,
+};

@@ -1,0 +1,19 @@
+.formPage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.form {
+	text-align: center;
+}
+
+.link {
+	color: #6c00ff;
+	text-decoration: none;
+}
+
+.link:hover {
+	text-decoration: underline;
+}
