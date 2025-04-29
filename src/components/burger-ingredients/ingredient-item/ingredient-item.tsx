@@ -4,10 +4,14 @@ import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '../../../prop-types/prop-types';
 import styles from './ingredient-item.module.scss';
+import { TIngredient } from '../../../utils/types';
 
-const IngredientItem = ({ itemData }) => {
+type IngredientItemProps = {
+	itemData: TIngredient;
+};
+
+const IngredientItem = ({ itemData }: IngredientItemProps) => {
 	const location = useLocation();
 	const count = itemData.counter;
 	const ingredientId = itemData._id;
@@ -42,7 +46,3 @@ const IngredientItem = ({ itemData }) => {
 };
 
 export default IngredientItem;
-
-IngredientItem.propTypes = {
-	itemData: ingredientPropType.isRequired,
-};

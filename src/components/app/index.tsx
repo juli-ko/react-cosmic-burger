@@ -30,6 +30,7 @@ export const App = () => {
 	const handleModalClose = () => navigate(-1);
 
 	useEffect(() => {
+		//@ts-expect-error "services"
 		dispatch(checkUserAuth());
 	}, []);
 

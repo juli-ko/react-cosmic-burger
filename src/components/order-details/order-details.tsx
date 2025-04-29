@@ -2,14 +2,17 @@ import styles from './order-details.module.scss';
 import done from '../../images/done.svg';
 import loader from '../../images/loader.svg';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import {
 	getOrderNumber,
 	getOrderLoading,
 	getOrderError,
 } from '../../services/orderDetailsSlice';
 
-const OrderDetails = ({ ingredientsError }) => {
+type OrderDetailsProp = {
+	ingredientsError: boolean;
+};
+
+const OrderDetails = ({ ingredientsError }: OrderDetailsProp) => {
 	const orderNumber = useSelector(getOrderNumber);
 	const loading = useSelector(getOrderLoading);
 	const hasError = useSelector(getOrderError);
@@ -63,7 +66,3 @@ const OrderDetails = ({ ingredientsError }) => {
 };
 
 export default OrderDetails;
-
-OrderDetails.propTypes = {
-	ingredientsError: PropTypes.bool.isRequired,
-};

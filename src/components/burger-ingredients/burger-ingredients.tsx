@@ -15,26 +15,36 @@ const BurgerIngredients = () => {
 	const data = useSelector(getIngredientsData);
 
 	const [currentType, setCurrentType] = React.useState(0);
-	const ingredientsGroupsRefs = useRef([]);
-	const scrollContainerRef = useRef(null);
+	const ingredientsGroupsRefs = useRef<
+		Array<React.MutableRefObject<HTMLDivElement>> | []
+	>([]);
+	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
 	const handleScroll = () => {
-		const scrollContainerTop =
-			scrollContainerRef.current.getBoundingClientRect().top;
-		const distances = ingredientsGroupsRefs.current.map((ref) =>
-			Math.abs(ref.current.getBoundingClientRect().top - scrollContainerTop)
-		);
-		const closestIndex = distances.indexOf(Math.min(...distances));
-		setCurrentType(closestIndex);
+		if (scrollContainerRef.current && ingredientsGroupsRefs.current) {
+			const scrollContainerTop =
+				scrollContainerRef.current.getBoundingClientRect().top;
+			const distances = ingredientsGroupsRefs.current.map((ref) => {
+				return ref
+					? Math.abs(
+							ref.current.getBoundingClientRect().top - scrollContainerTop
+					  )
+					: Infinity;
+			});
+			const closestIndex = distances.indexOf(Math.min(...distances));
+			setCurrentType(closestIndex);
+		}
 	};
 
 	useEffect(() => {
 		const container = scrollContainerRef.current;
-		container.addEventListener('scroll', handleScroll);
+		if (container) {
+			container.addEventListener('scroll', handleScroll);
 
-		return () => {
-			container.removeEventListener('scroll', handleScroll);
-		};
+			return () => {
+				container.removeEventListener('scroll', handleScroll);
+			};
+		}
 	}, []);
 
 	return (
@@ -56,11 +66,14 @@ const BurgerIngredients = () => {
 					<div
 						key={index}
 						ref={(el) =>
+							ingredientsGroupsRefs.current &&
+							el &&
 							(ingredientsGroupsRefs.current[index] = { current: el })
 						}>
 						<IngredientGroup
 							key={type.value}
 							typeName={type.name}
+							//@ts-expect-error "services"
 							data={data.filter((item) => item.type === type.value)}
 						/>
 					</div>

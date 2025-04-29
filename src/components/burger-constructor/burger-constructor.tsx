@@ -34,19 +34,23 @@ const BurgerConstructor = () => {
 			navigate('/login');
 			return;
 		}
+		//@ts-expect-error "services"
 		if (!bun || ingredients.length === 0) {
 			setIngredientsError(true);
 			setModalActive(true);
 			return;
 		}
 
+		//@ts-expect-error "services"
 		dispatch(loadOrders(constructorIds))
 			.unwrap()
 			.then(() => {
+				//@ts-expect-error "services"
 				dispatch(clearConstructor());
+				//@ts-expect-error "services"
 				dispatch(clearCounters());
 			})
-			.catch((error) => {
+			.catch((error: Error) => {
 				console.error('Ошибка при оформлении заказа:', error);
 			});
 
@@ -62,9 +66,12 @@ const BurgerConstructor = () => {
 	const totalSum = useCallback(() => {
 		let sum = 0;
 		if (bun) {
+			//@ts-expect-error "services"
 			sum += bun.price * 2;
 		}
+		//@ts-expect-error "services"
 		if (ingredients.length > 0) {
+			//@ts-expect-error "services"
 			ingredients.forEach((element) => {
 				sum += element.price;
 			});
