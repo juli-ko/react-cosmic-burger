@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-const useForm = (initialValues) => {
+const useForm = (initialValues: Record<string, string>) => {
 	const [formData, setFormData] = useState(initialValues);
 	const [isChanged, setIsChanged] = useState(false);
 
-	const handleChange = (e) => {
+	const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
 		const { value, name } = e.target;
 		setFormData((prevData) => ({
 			...prevData,
@@ -18,12 +18,12 @@ const useForm = (initialValues) => {
 		setIsChanged(false);
 	};
 
-	const validateEmail = (email) => {
+	const validateEmail = (email: string) => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailRegex.test(email);
 	};
 
-	const validatePassword = (password) => {
+	const validatePassword = (password: string) => {
 		return password.length > 5;
 	};
 

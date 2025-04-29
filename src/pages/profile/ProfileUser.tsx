@@ -15,11 +15,12 @@ export const ProfileUser = () => {
 	const initialState = useSelector(getUserInfo);
 	const { formData, isChanged, handleChange, resetForm, validateEmail } =
 		useForm({
+			//@ts-expect-error "services"
 			...initialState,
 			password: '',
 		});
 
-	const handleSubmit = (e) => {
+	const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
 		e.preventDefault();
 
 		if (!validateEmail(formData.email)) {
@@ -27,6 +28,7 @@ export const ProfileUser = () => {
 			return;
 		}
 
+		//@ts-expect-error "services"
 		dispatch(refresh(formData));
 	};
 

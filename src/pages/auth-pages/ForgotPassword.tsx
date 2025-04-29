@@ -14,7 +14,7 @@ export const ForgotPassword = () => {
 		email: '',
 	});
 
-	const handleSubmit = async (e) => {
+	const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 
 		if (!validateEmail(formData.email)) {
@@ -31,8 +31,8 @@ export const ForgotPassword = () => {
 	};
 
 	return (
-		<div className={styles.formPage} onSubmit={handleSubmit}>
-			<form className={styles.form}>
+		<div className={styles.formPage}>
+			<form className={styles.form} onSubmit={handleSubmit}>
 				<h1 className='text text_type_main-medium mb-6'>
 					Восстановление пароля
 				</h1>

@@ -10,6 +10,7 @@ export const Profile = () => {
 	const isOrdersHistory = useMatch('/profile/orders');
 
 	const onExit = async () => {
+		//@ts-expect-error "services"
 		await dispatch(logout());
 		navigate('/login');
 	};

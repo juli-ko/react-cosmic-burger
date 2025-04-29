@@ -1,54 +1,41 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
 	PasswordInput,
 	EmailInput,
 	Button,
-	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
-import { useDispatch } from 'react-redux';
-import { register } from '../../services/userSlice';
+import { login } from '../../services/userSlice';
 import useForm from '../../hooks/useForm';
 
-export const Register = () => {
+export const Login = () => {
 	const dispatch = useDispatch();
-	const { formData, handleChange, validateEmail, validatePassword } = useForm({
-		name: '',
+	const { formData, handleChange, validateEmail } = useForm({
 		email: '',
 		password: '',
 	});
 
-	const handleSubmit = (e) => {
+	const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 
 		if (!validateEmail(formData.email)) {
 			alert('Введите корректный email');
 			return;
 		}
-		if (!validatePassword(formData.password)) {
-			alert('Пароль должен быть длиннее 5 символов');
-			return;
+		try {
+			//@ts-expect-error "services"
+			await dispatch(login(formData)).unwrap();
+		} catch {
+			alert('Пользователь не найден');
 		}
-
-		dispatch(register(formData));
 	};
 
 	return (
 		<div className={styles.formPage}>
 			<form className={styles.form} onSubmit={handleSubmit}>
-				<h1 className='text text_type_main-medium mb-6'>Регистрация</h1>
-				<Input
-					type={'text'}
-					placeholder={'Имя'}
-					value={formData.name}
-					name={'name'}
-					onChange={handleChange}
-					error={false}
-					errorText={'Ошибка'}
-					size={'default'}
-					extraClass='mb-6'
-				/>
+				<h1 className='text text_type_main-medium mb-6'>Вход</h1>
 				<EmailInput
 					onChange={handleChange}
 					value={formData.email}
@@ -63,13 +50,19 @@ export const Register = () => {
 					extraClass='mb-6'
 				/>
 				<Button htmlType='submit' type='primary' size='medium'>
-					Зарегистрироваться
+					Войти
 				</Button>
 				<div className={styles.links}>
-					<p className='text text_type_main-default text_color_inactive mt-20'>
-						Уже зарегистрированы?{' '}
-						<Link to='/login' className={styles.link}>
-							Войти
+					<p className='text text_type_main-default text_color_inactive mt-20 mb-4'>
+						Вы — новый пользователь?{' '}
+						<Link to='/register' className={styles.link}>
+							Зарегистрироваться
+						</Link>
+					</p>
+					<p className='text text_type_main-default text_color_inactive'>
+						Забыли пароль?{' '}
+						<Link to='/forgot-password' className={styles.link}>
+							Восстановить пароль
 						</Link>
 					</p>
 				</div>

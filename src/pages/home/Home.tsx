@@ -19,6 +19,7 @@ export const Home = () => {
 	const data = useSelector(getIngredientsData);
 
 	useEffect(() => {
+		/* @ts-expect-error "services" */
 		dispatch(loadIngredients());
 	}, [dispatch]);
 
