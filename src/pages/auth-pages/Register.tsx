@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
 	PasswordInput,
 	EmailInput,
@@ -10,10 +9,13 @@ import styles from './Auth-pages.module.scss';
 import { useDispatch } from 'react-redux';
 import { register } from '../../services/userSlice';
 import useForm from '../../hooks/useForm';
+import { TFormData } from '../../utils/types';
 
 export const Register = () => {
 	const dispatch = useDispatch();
-	const { formData, handleChange, validateEmail, validatePassword } = useForm({
+	const { formData, handleChange, validateEmail, validatePassword } = useForm<
+		Pick<TFormData, 'password' | 'email' | 'name'>
+	>({
 		name: '',
 		email: '',
 		password: '',

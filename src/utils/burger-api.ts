@@ -84,7 +84,9 @@ export const forgotPassword = (email: string) => {
 	});
 };
 
-export const resetPassword = (formData: TFormData) => {
+export const resetPassword = (
+	formData: Pick<TFormData, 'password' | 'token'>
+) => {
 	return request<TResetPassResponse>('/password-reset/reset', {
 		method: 'POST',
 		headers: {
@@ -94,7 +96,9 @@ export const resetPassword = (formData: TFormData) => {
 	});
 };
 
-export const fetchRegister = (formData: TFormData) => {
+export const fetchRegister = (
+	formData: Pick<TFormData, 'name' | 'email' | 'password'>
+) => {
 	return fetchWithTokenSave<TAuthResponse>('/auth/register', {
 		method: 'POST',
 		headers: {
@@ -104,7 +108,7 @@ export const fetchRegister = (formData: TFormData) => {
 	});
 };
 
-export const fetchLogin = (formData: TFormData) => {
+export const fetchLogin = (formData: Pick<TFormData, 'email' | 'password'>) => {
 	return fetchWithTokenSave<TAuthResponse>('/auth/login', {
 		method: 'POST',
 		headers: {
@@ -154,7 +158,9 @@ export const getUser = () => {
 	);
 };
 
-export const refreshUser = (formData: TFormData) => {
+export const refreshUser = (
+	formData: Pick<TFormData, 'name' | 'email' | 'password'>
+) => {
 	return fetchWithRefresh<Pick<TAuthResponse, 'success' | 'user'>>(
 		'/auth/user',
 		{

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useForm = (initialValues: Record<string, string>) => {
+const useForm = <T>(initialValues: T) => {
 	const [formData, setFormData] = useState(initialValues);
 	const [isChanged, setIsChanged] = useState(false);
 

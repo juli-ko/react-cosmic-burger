@@ -17,10 +17,10 @@ export type TIngredient = {
 export type TData = Array<TIngredient>;
 
 export type TFormData = {
-	name?: string;
-	email?: string;
-	password?: string;
-	token?: string;
+	name: string;
+	email: string;
+	password: string;
+	token: string;
 };
 
 type TResponse = {

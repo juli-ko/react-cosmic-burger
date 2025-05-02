@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
 	PasswordInput,
 	Input,
@@ -8,10 +7,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
 import { resetPassword } from '../../utils/burger-api';
 import useForm from '../../hooks/useForm';
+import { TFormData } from '../../utils/types';
 
 export const ResetPassword = () => {
 	const navigate = useNavigate();
-	const { formData, handleChange, validatePassword } = useForm({
+	const { formData, handleChange, validatePassword } = useForm<
+		Pick<TFormData, 'password' | 'token'>
+	>({
 		password: '',
 		token: '',
 	});

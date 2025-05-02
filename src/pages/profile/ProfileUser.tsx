@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	PasswordInput,
@@ -9,12 +8,13 @@ import {
 import styles from './Profile.module.scss';
 import { getUserInfo, refresh } from '../../services/userSlice';
 import useForm from '../../hooks/useForm';
+import { TFormData } from '../../utils/types';
 
 export const ProfileUser = () => {
 	const dispatch = useDispatch();
 	const initialState = useSelector(getUserInfo);
 	const { formData, isChanged, handleChange, resetForm, validateEmail } =
-		useForm({
+		useForm<Pick<TFormData, 'password' | 'email' | 'name'>>({
 			//@ts-expect-error "services"
 			...initialState,
 			password: '',
