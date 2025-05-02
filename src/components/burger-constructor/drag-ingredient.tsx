@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../prop-types/prop-types';
 import {
 	ConstructorElement,
 	DragIcon,
@@ -13,12 +11,30 @@ import {
 	moveItem,
 } from '../../services/constructorSlice';
 import styles from './burger-constructor.module.scss';
+import { TIngredient } from '../../utils/types';
 
-const DragIngredient = ({ itemData, index }) => {
+type TDragIngredient = {
+	itemData: TIngredient;
+	index: number;
+};
+
+export type TDragObject = TIngredient & {
+	index: number;
+};
+
+type TDragCollectedProps = {
+	opacity: number;
+};
+
+const DragIngredient = ({ itemData, index }: TDragIngredient) => {
 	const dispatch = useDispatch();
 	const ref = useRef(null);
 
-	const [{ opacity }, drag] = useDrag({
+	const [{ opacity }, drag] = useDrag<
+		TDragObject,
+		unknown,
+		TDragCollectedProps
+	>({
 		type: 'item',
 		item: { ...itemData, index },
 		collect: (monitor) => ({
@@ -26,7 +42,7 @@ const DragIngredient = ({ itemData, index }) => {
 		}),
 	});
 
-	const [, drop] = useDrop({
+	const [, drop] = useDrop<TDragObject, unknown, {}>({
 		accept: 'item',
 		hover(item, monitor) {
 			if (!ref.current) return;
@@ -41,7 +57,7 @@ const DragIngredient = ({ itemData, index }) => {
 		},
 	});
 
-	const handleRemove = (item) => {
+	const handleRemove = (item: TIngredient) => {
 		dispatch(removeItemFromConstructor(item));
 		dispatch(decrementCounter(item._id));
 	};
@@ -62,8 +78,3 @@ const DragIngredient = ({ itemData, index }) => {
 };
 
 export default DragIngredient;
-
-DragIngredient.propTypes = {
-	itemData: ingredientPropType,
-	index: PropTypes.number.isRequired,
-};

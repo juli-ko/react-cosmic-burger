@@ -1,6 +1,5 @@
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { incrementCounter } from '../../services/ingredientsSlice';
 import {
@@ -9,15 +8,29 @@ import {
 	addToConstructor,
 } from '../../services/constructorSlice';
 import Skeleton from './skeleton';
-import DragIngredient from './drag-ingredient';
+import DragIngredient, { TDragObject } from './drag-ingredient';
 import styles from './burger-constructor.module.scss';
+import { TIngredient } from '../../utils/types';
 
-const DropContainer = ({ type, position = '' }) => {
+type TDropContainer = {
+	type: 'bun' | 'ingredient';
+	position?: 'top' | 'bottom';
+};
+
+type TDropCollectedProps = {
+	isHover: boolean;
+};
+
+const DropContainer = ({ type, position }: TDropContainer) => {
 	const dispatch = useDispatch();
 	const ingredients = useSelector(getConstructorIngredients);
 	const bun = useSelector(getConstructorBun);
 
-	const [{ isHover }, dropRef] = useDrop({
+	const [{ isHover }, dropRef] = useDrop<
+		TDragObject,
+		unknown,
+		TDropCollectedProps
+	>({
 		accept: type,
 		drop(item) {
 			onDropHandler(item);
@@ -27,7 +40,7 @@ const DropContainer = ({ type, position = '' }) => {
 		}),
 	});
 
-	const onDropHandler = (item) => {
+	const onDropHandler = (item: TIngredient) => {
 		dispatch(addToConstructor(item));
 		dispatch(incrementCounter(item._id));
 	};
@@ -43,8 +56,11 @@ const DropContainer = ({ type, position = '' }) => {
 					<ConstructorElement
 						type={position}
 						isLocked={true}
+						//@ts-expect-error "services"
 						text={`${bun.name} ${position === 'top' ? '(верх)' : '(низ)'}`}
+						//@ts-expect-error "services"
 						price={bun.price}
+						//@ts-expect-error "services"
 						thumbnail={bun.image}
 					/>
 				) : (
@@ -56,15 +72,21 @@ const DropContainer = ({ type, position = '' }) => {
 				))}
 			{type === 'ingredient' && (
 				<div className={`${styles.ingredientsScroll} mb-4 p-2`}>
-					{ingredients.length <= 0 && (
-						<Skeleton
-							text='Выберите начинку и соус'
-							borderColor={borderColor}
-						/>
-					)}
-					{ingredients.map((item, index) => (
-						<DragIngredient key={item.key} itemData={item} index={index} />
-					))}
+					{
+						//@ts-expect-error "services"
+						ingredients.length <= 0 && (
+							<Skeleton
+								text='Выберите начинку и соус'
+								borderColor={borderColor}
+							/>
+						)
+					}
+					{
+						//@ts-expect-error "services"
+						ingredients.map((item, index) => (
+							<DragIngredient key={item.key} itemData={item} index={index} />
+						))
+					}
 				</div>
 			)}
 		</div>
@@ -72,8 +94,3 @@ const DropContainer = ({ type, position = '' }) => {
 };
 
 export default DropContainer;
-
-DropContainer.propTypes = {
-	type: PropTypes.string.isRequired,
-	position: PropTypes.string,
-};
