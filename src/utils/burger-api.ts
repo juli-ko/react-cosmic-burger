@@ -5,6 +5,7 @@ import {
 	TRefreshTokenResponse,
 	TOrderResponse,
 	TResetPassResponse,
+	TIngredientResponse,
 } from './types';
 
 const API_URL = 'https://norma.nomoreparties.space/api';
@@ -59,7 +60,8 @@ const fetchWithRefresh = async <T>(
 	}
 };
 
-export const fetchIngredients = () => request<TData>('/ingredients');
+export const fetchIngredients = () =>
+	request<TIngredientResponse>('/ingredients');
 
 export const fetchOrder = (idsArr: Array<string>) => {
 	return request<TOrderResponse>('/orders', {

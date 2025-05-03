@@ -11,19 +11,16 @@ import {
 	moveItem,
 } from '../../services/constructorSlice';
 import styles from './burger-constructor.module.scss';
-import { TIngredient } from '../../utils/types';
+import { TConstructorIngredient } from '../../utils/types';
+import { TDragCollectedProps } from '../burger-ingredients/ingredient-item/ingredient-item';
 
 type TDragIngredient = {
-	itemData: TIngredient;
+	itemData: TConstructorIngredient;
 	index: number;
 };
 
-export type TDragObject = TIngredient & {
+export type TDragObject = TConstructorIngredient & {
 	index: number;
-};
-
-type TDragCollectedProps = {
-	opacity: number;
 };
 
 const DragIngredient = ({ itemData, index }: TDragIngredient) => {
@@ -42,9 +39,9 @@ const DragIngredient = ({ itemData, index }: TDragIngredient) => {
 		}),
 	});
 
-	const [, drop] = useDrop<TDragObject, unknown, {}>({
+	const [, drop] = useDrop<TDragObject, unknown, unknown>({
 		accept: 'item',
-		hover(item, monitor) {
+		hover(item) {
 			if (!ref.current) return;
 
 			const dragIndex = item.index;
@@ -57,7 +54,7 @@ const DragIngredient = ({ itemData, index }: TDragIngredient) => {
 		},
 	});
 
-	const handleRemove = (item: TIngredient) => {
+	const handleRemove = (item: TConstructorIngredient) => {
 		dispatch(removeItemFromConstructor(item));
 		dispatch(decrementCounter(item._id));
 	};

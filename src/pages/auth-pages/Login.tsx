@@ -1,4 +1,3 @@
-import { useDispatch } from 'react-redux';
 import {
 	PasswordInput,
 	EmailInput,
@@ -9,9 +8,10 @@ import styles from './Auth-pages.module.scss';
 import { login } from '../../services/userSlice';
 import useForm from '../../hooks/useForm';
 import { TFormData } from '../../utils/types';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 export const Login = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const { formData, handleChange, validateEmail } = useForm<
 		Pick<TFormData, 'password' | 'email'>
 	>({
@@ -27,7 +27,6 @@ export const Login = () => {
 			return;
 		}
 		try {
-			//@ts-expect-error "services"
 			await dispatch(login(formData)).unwrap();
 		} catch {
 			alert('Пользователь не найден');

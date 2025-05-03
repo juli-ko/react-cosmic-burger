@@ -56,11 +56,8 @@ const DropContainer = ({ type, position }: TDropContainer) => {
 					<ConstructorElement
 						type={position}
 						isLocked={true}
-						//@ts-expect-error "services"
 						text={`${bun.name} ${position === 'top' ? '(верх)' : '(низ)'}`}
-						//@ts-expect-error "services"
 						price={bun.price}
-						//@ts-expect-error "services"
 						thumbnail={bun.image}
 					/>
 				) : (
@@ -72,21 +69,15 @@ const DropContainer = ({ type, position }: TDropContainer) => {
 				))}
 			{type === 'ingredient' && (
 				<div className={`${styles.ingredientsScroll} mb-4 p-2`}>
-					{
-						//@ts-expect-error "services"
-						ingredients.length <= 0 && (
-							<Skeleton
-								text='Выберите начинку и соус'
-								borderColor={borderColor}
-							/>
-						)
-					}
-					{
-						//@ts-expect-error "services"
-						ingredients.map((item, index) => (
-							<DragIngredient key={item.key} itemData={item} index={index} />
-						))
-					}
+					{ingredients.length <= 0 && (
+						<Skeleton
+							text='Выберите начинку и соус'
+							borderColor={borderColor}
+						/>
+					)}
+					{ingredients.map((item, index) => (
+						<DragIngredient key={item.key} itemData={item} index={index} />
+					))}
 				</div>
 			)}
 		</div>

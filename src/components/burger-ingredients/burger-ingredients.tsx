@@ -5,15 +5,20 @@ import styles from './burger-ingredients.module.scss';
 import { getIngredientsData } from '../../services/ingredientsSlice';
 import { useSelector } from 'react-redux';
 
+enum IngredientType {
+	Bun = 'bun',
+	Sauce = 'sauce',
+	Main = 'main',
+}
+
 const TYPES = [
-	{ name: 'Булки', value: 'bun' },
-	{ name: 'Соусы', value: 'sauce' },
-	{ name: 'Начинки', value: 'main' },
+	{ name: 'Булки', value: IngredientType.Bun },
+	{ name: 'Соусы', value: IngredientType.Sauce },
+	{ name: 'Начинки', value: IngredientType.Main },
 ];
 
 const BurgerIngredients = () => {
 	const data = useSelector(getIngredientsData);
-
 	const [currentType, setCurrentType] = React.useState(0);
 	const ingredientsGroupsRefs = useRef<
 		Array<React.MutableRefObject<HTMLDivElement>> | []
@@ -73,7 +78,6 @@ const BurgerIngredients = () => {
 						<IngredientGroup
 							key={type.value}
 							typeName={type.name}
-							//@ts-expect-error "services"
 							data={data.filter((item) => item.type === type.value)}
 						/>
 					</div>

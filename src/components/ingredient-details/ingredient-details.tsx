@@ -1,22 +1,21 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
 	loadIngredients,
 	getIngredientsData,
 } from '../../services/ingredientsSlice';
 import styles from './ingredient-details.module.scss';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 const IngredientDetails = () => {
 	const { ingredientId } = useParams();
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const ingredients = useSelector(getIngredientsData);
-	//@ts-expect-error "services"
 	const itemData = ingredients.find((item) => item._id === ingredientId);
 
 	useEffect(() => {
 		if (!ingredients.length) {
-			//@ts-expect-error "services"
 			dispatch(loadIngredients());
 		}
 	}, [dispatch, ingredients]);
@@ -33,31 +32,25 @@ const IngredientDetails = () => {
 
 	return (
 		<div className={styles.container}>
-			{/* @ts-expect-error "services" */}
 			<img src={itemData.image_large} alt={itemData.name} />
-			{/* @ts-expect-error "services" */}
 			<p className='text text_type_main-medium mt-4 mb-8'>{itemData.name}</p>
 			<ul
 				className={`${styles.info} text text_type_main-default text_color_inactive mb-15`}>
 				<li className='mr-5'>
 					<p>Калории,ккал</p>
-					{/* @ts-expect-error "services" */}
 					<p className='text_type_digits-default pt-2'>{itemData.calories}</p>
 				</li>
 				<li className='mr-5'>
 					<p>Белки, г</p>
-					{/* @ts-expect-error "services" */}
 					<p className='text_type_digits-default pt-2'>{itemData.proteins}</p>
 				</li>
 				<li className='mr-5'>
 					<p>Жиры, г</p>
-					{/* @ts-expect-error "services" */}
 					<p className='text_type_digits-default pt-2'>{itemData.fat}</p>
 				</li>
 				<li>
 					<p>Углеводы, г</p>
 					<p className='text_type_digits-default pt-2'>
-						{/* @ts-expect-error "services" */}
 						{itemData.carbohydrates}
 					</p>
 				</li>

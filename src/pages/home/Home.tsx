@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
@@ -11,15 +11,15 @@ import {
 	loadIngredients,
 } from '../../services/ingredientsSlice';
 import styles from './home.module.scss';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 export const Home = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const loading = useSelector(getIngredientsLoading);
 	const hasError = useSelector(getIngredientsError);
 	const data = useSelector(getIngredientsData);
 
 	useEffect(() => {
-		/* @ts-expect-error "services" */
 		dispatch(loadIngredients());
 	}, [dispatch]);
 

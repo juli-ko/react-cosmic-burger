@@ -1,14 +1,14 @@
-import { useSelector } from 'react-redux';
 import loader from '../../../src/images/loader.svg';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getUserAuth, getUserInfo } from '../../services/userSlice';
+import { useSelector } from 'react-redux';
 
-type ProtectedProps = {
+type TProtected = {
 	onlyUnAuth?: boolean;
 	component: React.JSX.Element;
 };
 
-const Protected = ({ onlyUnAuth = false, component }: ProtectedProps) => {
+const Protected = ({ onlyUnAuth = false, component }: TProtected) => {
 	const isAuthChecked = useSelector(getUserAuth);
 	const user = useSelector(getUserInfo);
 	const location = useLocation();
@@ -42,6 +42,6 @@ const Protected = ({ onlyUnAuth = false, component }: ProtectedProps) => {
 };
 
 export const OnlyAuth = Protected;
-export const OnlyUnAuth = ({ component }: ProtectedProps) => (
+export const OnlyUnAuth = ({ component }: TProtected) => (
 	<Protected onlyUnAuth={true} component={component} />
 );

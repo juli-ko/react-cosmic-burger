@@ -1,8 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchOrder } from '../utils/burger-api';
 
-const initialState = {
-	orderNumber: '',
+type TInitialState = {
+	orderNumber: number | null;
+	hasError: boolean | string;
+	loading: boolean;
+};
+
+const initialState: TInitialState = {
+	orderNumber: null,
 	hasError: false,
 	loading: false,
 };
@@ -13,7 +19,7 @@ const orderDetailsSlice = createSlice({
 	name: 'orders',
 	reducers: {
 		removeOrderNum: (state) => {
-			state.orderNumber = '';
+			state.orderNumber = null;
 			state.hasError = false;
 		},
 	},

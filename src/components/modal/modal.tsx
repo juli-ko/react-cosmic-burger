@@ -6,12 +6,13 @@ import styles from './modal.module.scss';
 
 const modalRoot = document.getElementById('modals');
 
-type ModalProps = {
+type TModal = {
 	children: React.JSX.Element;
 	header?: string;
 	onClose: () => void;
 };
-const Modal = ({ children, header, onClose }: ModalProps) => {
+
+const Modal = ({ children, header, onClose }: TModal) => {
 	useEffect(() => {
 		const handleEsc = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {

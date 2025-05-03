@@ -8,11 +8,11 @@ import {
 	getOrderError,
 } from '../../services/orderDetailsSlice';
 
-type OrderDetailsProp = {
+type TOrderDetails = {
 	ingredientsError: boolean;
 };
 
-const OrderDetails = ({ ingredientsError }: OrderDetailsProp) => {
+const OrderDetails = ({ ingredientsError }: TOrderDetails) => {
 	const orderNumber = useSelector(getOrderNumber);
 	const loading = useSelector(getOrderLoading);
 	const hasError = useSelector(getOrderError);

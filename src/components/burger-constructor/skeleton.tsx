@@ -1,6 +1,6 @@
 import styles from './burger-constructor.module.scss';
 
-type SkeletonProps = {
+type TSkeleton = {
 	text: string;
 	position?: string;
 	borderColor?: string;
@@ -10,7 +10,7 @@ const Skeleton = ({
 	text,
 	position = '',
 	borderColor = 'transparent',
-}: SkeletonProps) => {
+}: TSkeleton) => {
 	const additionalClassName = !!position
 		? `constructor-element_pos_${position}`
 		: '';

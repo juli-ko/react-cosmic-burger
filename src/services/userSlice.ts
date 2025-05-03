@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import {
 	fetchLogin,
 	fetchLogout,
@@ -6,27 +6,35 @@ import {
 	getUser,
 	refreshUser,
 } from '../utils/burger-api';
+import { TAuthResponse, TFormData, TUser } from '../utils/types';
 
-const initialState = {
+type TInitialState = {
+	user: TUser | null;
+	isAuthChecked: boolean;
+};
+
+const initialState: TInitialState = {
 	user: null,
 	isAuthChecked: false, // isAuthChecked флаг, показывающий что проверка токена произведена при этом результат проверки не имеет значения
 };
 
-export const register = createAsyncThunk('user/register', async (formData) =>
-	fetchRegister(formData)
-);
-export const login = createAsyncThunk('user/login', async (formData) =>
-	fetchLogin(formData)
-);
+export const register = createAsyncThunk<
+	TAuthResponse,
+	Pick<TFormData, 'name' | 'email' | 'password'>
+>('user/register', async (formData) => fetchRegister(formData));
+export const login = createAsyncThunk<
+	TAuthResponse,
+	Pick<TFormData, 'email' | 'password'>
+>('user/login', async (formData) => fetchLogin(formData));
 export const logout = createAsyncThunk('user/logout', async () => {
 	await fetchLogout();
 });
-export const refresh = createAsyncThunk(
-	'user/refreshUser',
-	async (formData) => {
-		return await refreshUser(formData);
-	}
-);
+export const refresh = createAsyncThunk<
+	Pick<TAuthResponse, 'user' | 'success'>,
+	Pick<TFormData, 'name' | 'email' | 'password'>
+>('user/refreshUser', async (formData) => {
+	return await refreshUser(formData);
+});
 
 export const checkUserAuth = createAsyncThunk(
 	'user/checkAuth',
@@ -44,10 +52,10 @@ export const checkUserAuth = createAsyncThunk(
 const userSlice = createSlice({
 	name: 'user',
 	reducers: {
-		setAuthChecked: (state, action) => {
+		setAuthChecked: (state, action: PayloadAction<boolean>) => {
 			state.isAuthChecked = action.payload;
 		},
-		setUser: (state, action) => {
+		setUser: (state, action: PayloadAction<TUser>) => {
 			state.user = action.payload;
 		},
 	},
@@ -64,7 +72,7 @@ const userSlice = createSlice({
 			.addCase(login.fulfilled, (state, action) => {
 				state.user = action.payload.user;
 			})
-			.addCase(logout.fulfilled, (state, action) => {
+			.addCase(logout.fulfilled, (state) => {
 				state.user = null;
 			})
 			.addCase(refresh.fulfilled, (state, action) => {

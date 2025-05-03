@@ -16,6 +16,10 @@ export type TIngredient = {
 
 export type TData = Array<TIngredient>;
 
+export type TConstructorIngredient = TIngredient & {
+	key: string;
+};
+
 export type TFormData = {
 	name: string;
 	email: string;
@@ -26,18 +30,25 @@ export type TFormData = {
 type TResponse = {
 	success: boolean;
 };
+
+export type TUser = {
+	email: string;
+	name: string;
+};
+
+export type TIngredientResponse = TResponse & {
+	data: TData;
+};
+
 export type TAuthResponse = TResponse & {
-	user?: {
-		email: string;
-		name: string;
-	};
-	accessToken?: string;
-	refreshToken?: string;
+	user: TUser;
+	accessToken: string;
+	refreshToken: string;
 };
 
 export type TRefreshTokenResponse = TResponse & {
-	refreshToken?: string;
-	accessToken?: string;
+	refreshToken: string;
+	accessToken: string;
 };
 
 export type TOrderResponse = TResponse & {

@@ -7,16 +7,24 @@ import {
 import styles from './ingredient-item.module.scss';
 import { TIngredient } from '../../../utils/types';
 
-type IngredientItemProps = {
+type TIngredientItem = {
 	itemData: TIngredient;
 };
 
-const IngredientItem = ({ itemData }: IngredientItemProps) => {
+export type TDragCollectedProps = {
+	opacity: number;
+};
+
+const IngredientItem = ({ itemData }: TIngredientItem) => {
 	const location = useLocation();
 	const count = itemData.counter;
 	const ingredientId = itemData._id;
 
-	const [{ opacity }, dragRef] = useDrag({
+	const [{ opacity }, dragRef] = useDrag<
+		TIngredient,
+		unknown,
+		TDragCollectedProps
+	>({
 		type: itemData.type === 'bun' ? 'bun' : 'ingredient',
 		item: { ...itemData },
 		collect: (monitor) => ({

@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	CurrencyIcon,
 	Button,
@@ -18,9 +17,11 @@ import { clearCounters } from '../../services/ingredientsSlice';
 import styles from './burger-constructor.module.scss';
 import { getUserInfo } from '../../services/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useSelector } from 'react-redux';
 
 const BurgerConstructor = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const ingredients = useSelector(getConstructorIngredients);
 	const bun = useSelector(getConstructorBun);
@@ -34,20 +35,17 @@ const BurgerConstructor = () => {
 			navigate('/login');
 			return;
 		}
-		//@ts-expect-error "services"
+
 		if (!bun || ingredients.length === 0) {
 			setIngredientsError(true);
 			setModalActive(true);
 			return;
 		}
 
-		//@ts-expect-error "services"
 		dispatch(loadOrders(constructorIds))
 			.unwrap()
 			.then(() => {
-				//@ts-expect-error "services"
 				dispatch(clearConstructor());
-				//@ts-expect-error "services"
 				dispatch(clearCounters());
 			})
 			.catch((error: Error) => {
@@ -66,12 +64,10 @@ const BurgerConstructor = () => {
 	const totalSum = useCallback(() => {
 		let sum = 0;
 		if (bun) {
-			//@ts-expect-error "services"
 			sum += bun.price * 2;
 		}
-		//@ts-expect-error "services"
+
 		if (ingredients.length > 0) {
-			//@ts-expect-error "services"
 			ingredients.forEach((element) => {
 				sum += element.price;
 			});
