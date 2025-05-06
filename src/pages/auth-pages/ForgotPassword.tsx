@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
 	EmailInput,
 	Button,
@@ -7,14 +6,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
 import { forgotPassword } from '../../utils/burger-api';
 import useForm from '../../hooks/useForm';
+import { TFormData } from '../../utils/types';
 
 export const ForgotPassword = () => {
 	const navigate = useNavigate();
-	const { formData, handleChange, validateEmail } = useForm({
+	const { formData, handleChange, validateEmail } = useForm<
+		Pick<TFormData, 'email'>
+	>({
 		email: '',
 	});
 
-	const handleSubmit = async (e) => {
+	const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 
 		if (!validateEmail(formData.email)) {
@@ -31,8 +33,8 @@ export const ForgotPassword = () => {
 	};
 
 	return (
-		<div className={styles.formPage} onSubmit={handleSubmit}>
-			<form className={styles.form}>
+		<div className={styles.formPage}>
+			<form className={styles.form} onSubmit={handleSubmit}>
 				<h1 className='text text_type_main-medium mb-6'>
 					Восстановление пароля
 				</h1>

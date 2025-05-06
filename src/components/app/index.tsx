@@ -5,7 +5,6 @@ import {
 	useLocation,
 	Navigate,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import { Home } from '../../pages/home/Home';
@@ -20,9 +19,10 @@ import { checkUserAuth } from '../../services/userSlice';
 import { OnlyAuth, OnlyUnAuth } from './protected-route';
 import { Profile } from '../../pages/profile/Profile';
 import { ProfileUser } from '../../pages/profile/ProfileUser';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 export const App = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const background = location.state && location.state.background;

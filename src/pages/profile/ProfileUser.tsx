@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
 	PasswordInput,
 	EmailInput,
@@ -9,17 +8,21 @@ import {
 import styles from './Profile.module.scss';
 import { getUserInfo, refresh } from '../../services/userSlice';
 import useForm from '../../hooks/useForm';
+import { TFormData } from '../../utils/types';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 export const ProfileUser = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const initialState = useSelector(getUserInfo);
 	const { formData, isChanged, handleChange, resetForm, validateEmail } =
-		useForm({
+		useForm<Pick<TFormData, 'password' | 'email' | 'name'>>({
 			...initialState,
+			email: initialState?.email || '',
+			name: initialState?.name || '',
 			password: '',
 		});
 
-	const handleSubmit = (e) => {
+	const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
 		e.preventDefault();
 
 		if (!validateEmail(formData.email)) {

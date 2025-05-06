@@ -1,13 +1,20 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { fetchIngredients } from '../utils/burger-api';
+import { TData, TIngredientResponse } from '../utils/types';
 
-const initialState = {
+type TInitialState = {
+	ingredients: TData;
+	hasError: boolean | string;
+	loading: boolean;
+};
+
+const initialState: TInitialState = {
 	ingredients: [],
 	hasError: false,
 	loading: false,
 };
 
-export const loadIngredients = createAsyncThunk(
+export const loadIngredients = createAsyncThunk<TIngredientResponse>(
 	'ingredients/loadIngredients',
 	async () => {
 		return fetchIngredients();
@@ -16,8 +23,9 @@ export const loadIngredients = createAsyncThunk(
 
 const ingredientsSlice = createSlice({
 	name: 'ingredients',
+	initialState,
 	reducers: {
-		incrementCounter: (state, action) => {
+		incrementCounter: (state, action: PayloadAction<string>) => {
 			const ingredient = state.ingredients.find(
 				(item) => item._id === action.payload
 			);
@@ -31,7 +39,7 @@ const ingredientsSlice = createSlice({
 				ingredient.counter += 1;
 			}
 		},
-		decrementCounter: (state, action) => {
+		decrementCounter: (state, action: PayloadAction<string>) => {
 			const ingredient = state.ingredients.find(
 				(item) => item._id === action.payload
 			);
@@ -42,11 +50,10 @@ const ingredientsSlice = createSlice({
 				ingredient.counter -= 1;
 			}
 		},
-		clearCounters: (state, action) => {
+		clearCounters: (state) => {
 			state.ingredients.map((ingredient) => (ingredient.counter = 0));
 		},
 	},
-	initialState,
 	selectors: {
 		getIngredientsLoading: (state) => state.loading,
 		getIngredientsError: (state) => state.hasError,
@@ -75,7 +82,6 @@ export const {
 	getIngredientsLoading,
 	getIngredientsError,
 	getIngredientsData,
-	getIngredientById,
 } = ingredientsSlice.selectors;
 export const { incrementCounter, decrementCounter, clearCounters } =
 	ingredientsSlice.actions;

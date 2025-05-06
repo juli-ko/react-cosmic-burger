@@ -1,10 +1,10 @@
 import { NavLink, Outlet, useMatch, useNavigate } from 'react-router-dom';
 import styles from './Profile.module.scss';
 import { logout } from '../../services/userSlice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 export const Profile = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const isProfile = useMatch('/profile');
 	const isOrdersHistory = useMatch('/profile/orders');

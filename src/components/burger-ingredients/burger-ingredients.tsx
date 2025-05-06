@@ -5,36 +5,51 @@ import styles from './burger-ingredients.module.scss';
 import { getIngredientsData } from '../../services/ingredientsSlice';
 import { useSelector } from 'react-redux';
 
+enum IngredientType {
+	Bun = 'bun',
+	Sauce = 'sauce',
+	Main = 'main',
+}
+
 const TYPES = [
-	{ name: 'Булки', value: 'bun' },
-	{ name: 'Соусы', value: 'sauce' },
-	{ name: 'Начинки', value: 'main' },
+	{ name: 'Булки', value: IngredientType.Bun },
+	{ name: 'Соусы', value: IngredientType.Sauce },
+	{ name: 'Начинки', value: IngredientType.Main },
 ];
 
 const BurgerIngredients = () => {
 	const data = useSelector(getIngredientsData);
-
 	const [currentType, setCurrentType] = React.useState(0);
-	const ingredientsGroupsRefs = useRef([]);
-	const scrollContainerRef = useRef(null);
+	const ingredientsGroupsRefs = useRef<
+		Array<React.MutableRefObject<HTMLDivElement>> | []
+	>([]);
+	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
 	const handleScroll = () => {
-		const scrollContainerTop =
-			scrollContainerRef.current.getBoundingClientRect().top;
-		const distances = ingredientsGroupsRefs.current.map((ref) =>
-			Math.abs(ref.current.getBoundingClientRect().top - scrollContainerTop)
-		);
-		const closestIndex = distances.indexOf(Math.min(...distances));
-		setCurrentType(closestIndex);
+		if (scrollContainerRef.current && ingredientsGroupsRefs.current) {
+			const scrollContainerTop =
+				scrollContainerRef.current.getBoundingClientRect().top;
+			const distances = ingredientsGroupsRefs.current.map((ref) => {
+				return ref
+					? Math.abs(
+							ref.current.getBoundingClientRect().top - scrollContainerTop
+					  )
+					: Infinity;
+			});
+			const closestIndex = distances.indexOf(Math.min(...distances));
+			setCurrentType(closestIndex);
+		}
 	};
 
 	useEffect(() => {
 		const container = scrollContainerRef.current;
-		container.addEventListener('scroll', handleScroll);
+		if (container) {
+			container.addEventListener('scroll', handleScroll);
 
-		return () => {
-			container.removeEventListener('scroll', handleScroll);
-		};
+			return () => {
+				container.removeEventListener('scroll', handleScroll);
+			};
+		}
 	}, []);
 
 	return (
@@ -56,6 +71,8 @@ const BurgerIngredients = () => {
 					<div
 						key={index}
 						ref={(el) =>
+							ingredientsGroupsRefs.current &&
+							el &&
 							(ingredientsGroupsRefs.current[index] = { current: el })
 						}>
 						<IngredientGroup

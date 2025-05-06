@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
 	PasswordInput,
 	EmailInput,
@@ -9,15 +7,19 @@ import { Link } from 'react-router-dom';
 import styles from './Auth-pages.module.scss';
 import { login } from '../../services/userSlice';
 import useForm from '../../hooks/useForm';
+import { TFormData } from '../../utils/types';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 export const Login = () => {
-	const dispatch = useDispatch();
-	const { formData, handleChange, validateEmail } = useForm({
+	const dispatch = useAppDispatch();
+	const { formData, handleChange, validateEmail } = useForm<
+		Pick<TFormData, 'password' | 'email'>
+	>({
 		email: '',
 		password: '',
 	});
 
-	const handleSubmit = async (e) => {
+	const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 
 		if (!validateEmail(formData.email)) {

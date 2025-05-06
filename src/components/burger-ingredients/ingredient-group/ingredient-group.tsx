@@ -1,9 +1,13 @@
 import styles from './ingredient-group.module.scss';
 import IngredientItem from '../ingredient-item/ingredient-item';
-import { dataPropType } from '../../../prop-types/prop-types';
-import PropTypes from 'prop-types';
+import { TData } from '../../../utils/types';
 
-const IngredientGroup = ({ typeName, data }) => {
+type TIngredientItem = {
+	typeName: string;
+	data: TData;
+};
+
+const IngredientGroup = ({ typeName, data }: TIngredientItem) => {
 	return (
 		<section className={`${styles.group} mb-10`}>
 			<h2 className='text text_type_main-medium'>{typeName}</h2>
@@ -16,8 +20,3 @@ const IngredientGroup = ({ typeName, data }) => {
 	);
 };
 export default IngredientGroup;
-
-IngredientGroup.propTypes = {
-	typeName: PropTypes.string.isRequired,
-	data: dataPropType.isRequired,
-};

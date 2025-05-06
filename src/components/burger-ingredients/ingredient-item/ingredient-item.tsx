@@ -4,15 +4,27 @@ import {
 	CurrencyIcon,
 	Counter,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropType } from '../../../prop-types/prop-types';
 import styles from './ingredient-item.module.scss';
+import { TIngredient } from '../../../utils/types';
 
-const IngredientItem = ({ itemData }) => {
+type TIngredientItem = {
+	itemData: TIngredient;
+};
+
+export type TDragCollectedProps = {
+	opacity: number;
+};
+
+const IngredientItem = ({ itemData }: TIngredientItem) => {
 	const location = useLocation();
 	const count = itemData.counter;
 	const ingredientId = itemData._id;
 
-	const [{ opacity }, dragRef] = useDrag({
+	const [{ opacity }, dragRef] = useDrag<
+		TIngredient,
+		unknown,
+		TDragCollectedProps
+	>({
 		type: itemData.type === 'bun' ? 'bun' : 'ingredient',
 		item: { ...itemData },
 		collect: (monitor) => ({
@@ -42,7 +54,3 @@ const IngredientItem = ({ itemData }) => {
 };
 
 export default IngredientItem;
-
-IngredientItem.propTypes = {
-	itemData: ingredientPropType.isRequired,
-};

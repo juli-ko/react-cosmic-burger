@@ -1,8 +1,17 @@
-import PropTypes from 'prop-types';
 import styles from './burger-constructor.module.scss';
 
-const Skeleton = ({ text, position = '', borderColor = 'transparent' }) => {
-	const additionalClassName = { position }
+type TSkeleton = {
+	text: string;
+	position?: string;
+	borderColor?: string;
+};
+
+const Skeleton = ({
+	text,
+	position = '',
+	borderColor = 'transparent',
+}: TSkeleton) => {
+	const additionalClassName = !!position
 		? `constructor-element_pos_${position}`
 		: '';
 
@@ -16,9 +25,3 @@ const Skeleton = ({ text, position = '', borderColor = 'transparent' }) => {
 };
 
 export default Skeleton;
-
-Skeleton.propTypes = {
-	text: PropTypes.string.isRequired,
-	position: PropTypes.string,
-	borderColor: PropTypes.string,
-};

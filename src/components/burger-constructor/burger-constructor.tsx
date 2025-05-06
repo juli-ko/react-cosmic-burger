@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
 	CurrencyIcon,
 	Button,
@@ -18,9 +17,11 @@ import { clearCounters } from '../../services/ingredientsSlice';
 import styles from './burger-constructor.module.scss';
 import { getUserInfo } from '../../services/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useSelector } from 'react-redux';
 
 const BurgerConstructor = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const ingredients = useSelector(getConstructorIngredients);
 	const bun = useSelector(getConstructorBun);
@@ -34,6 +35,7 @@ const BurgerConstructor = () => {
 			navigate('/login');
 			return;
 		}
+
 		if (!bun || ingredients.length === 0) {
 			setIngredientsError(true);
 			setModalActive(true);
@@ -46,7 +48,7 @@ const BurgerConstructor = () => {
 				dispatch(clearConstructor());
 				dispatch(clearCounters());
 			})
-			.catch((error) => {
+			.catch((error: Error) => {
 				console.error('Ошибка при оформлении заказа:', error);
 			});
 
@@ -64,6 +66,7 @@ const BurgerConstructor = () => {
 		if (bun) {
 			sum += bun.price * 2;
 		}
+
 		if (ingredients.length > 0) {
 			ingredients.forEach((element) => {
 				sum += element.price;
