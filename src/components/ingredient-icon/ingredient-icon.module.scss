@@ -1,0 +1,51 @@
+.ingredientBorder {
+	height: 64px;
+	width: 64px;
+	border: 2px;
+	border-radius: 50%;
+	background: linear-gradient(45deg, #801ab2, #4c4cff);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.ingredientBackground {
+	position: absolute;
+	inset: 2px;
+	border-radius: 50%;
+	background: #1c1c21;
+}
+
+.zIndex7 {
+	margin: 0;
+	z-index: 7;
+}
+
+.zIndex6 {
+	z-index: 6;
+	margin-left: -5%;
+}
+
+.zIndex5 {
+	z-index: 5;
+	margin-left: -5%;
+}
+
+.zIndex4 {
+	z-index: 4;
+	margin-left: -5%;
+}
+.zIndex2 {
+	z-index: 2;
+	margin-left: -5%;
+}
+
+.zIndex3 {
+	z-index: 3;
+	margin-left: -5%;
+}
+
+.zIndex1 {
+	z-index: 2;
+}

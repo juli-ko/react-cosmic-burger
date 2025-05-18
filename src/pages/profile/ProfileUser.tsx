@@ -34,43 +34,45 @@ export const ProfileUser = () => {
 	};
 
 	return (
-		<form className={`${styles.form} mt-30`} onSubmit={handleSubmit}>
-			<Input
-				type={'text'}
-				placeholder={'Имя'}
-				value={formData.name}
-				name={'name'}
-				onChange={handleChange}
-				error={false}
-				errorText={'Ошибка'}
-				size={'default'}
-				extraClass='mb-6'
-			/>
-			<EmailInput
-				onChange={handleChange}
-				value={formData.email}
-				name={'email'}
-				isIcon={true}
-				extraClass='mb-6'
-			/>
-			<PasswordInput
-				onChange={handleChange}
-				value={formData.password}
-				name={'password'}
-				extraClass='mb-6'
-			/>
-			{isChanged && (
-				<div className={styles.buttonsGroup}>
-					<button
-						className={`text text_type_main-default ${styles.cancelBtn}`}
-						onClick={resetForm}>
-						Отмена
-					</button>
-					<Button htmlType='submit' type='primary' size='medium'>
-						Сохранить
-					</Button>
-				</div>
-			)}
-		</form>
+		<div className={`${styles.wrapper}`}>
+			<form className={`${styles.form} mt-30`} onSubmit={handleSubmit}>
+				<Input
+					type={'text'}
+					placeholder={'Имя'}
+					value={formData.name}
+					name={'name'}
+					onChange={handleChange}
+					error={false}
+					errorText={'Ошибка'}
+					size={'default'}
+					extraClass='mb-6'
+				/>
+				<EmailInput
+					onChange={handleChange}
+					value={formData.email}
+					name={'email'}
+					isIcon={true}
+					extraClass='mb-6'
+				/>
+				<PasswordInput
+					onChange={handleChange}
+					value={formData.password}
+					name={'password'}
+					extraClass='mb-6'
+				/>
+				{isChanged && (
+					<div className={styles.buttonsGroup}>
+						<button
+							className={`text text_type_main-default ${styles.cancelBtn}`}
+							onClick={resetForm}>
+							Отмена
+						</button>
+						<Button htmlType='submit' type='primary' size='medium'>
+							Сохранить
+						</Button>
+					</div>
+				)}
+			</form>
+		</div>
 	);
 };
