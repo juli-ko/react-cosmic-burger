@@ -13,24 +13,6 @@ h1 {
 	text-align: start;
 }
 
-.feedList {
-	display: flex;
-	flex-direction: column;
-	min-width: 600px;
-	height: 75vh;
-	overflow-y: auto;
-	scrollbar-color: auto;
-	scrollbar-width: auto;
-
-	&::-webkit-scrollbar {
-		background-color: #2f2f37;
-		width: 10px;
-	}
-	&::-webkit-scrollbar-thumb {
-		background-color: #8585ad;
-	}
-}
-
 .feedInfo {
 	display: flex;
 	flex-direction: column;

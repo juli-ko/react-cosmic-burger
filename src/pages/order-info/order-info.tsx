@@ -39,7 +39,7 @@ const OrderInfo = () => {
 						</div>
 					</div>
 				</div>
-				<div className={styles.infoBlock}>
+				<div className={`${styles.infoBlock} mb-4`}>
 					<FormattedDate
 						className='text text_type_main-default text_color_inactive'
 						date={new Date(dateFromServer)}

@@ -1,4 +1,4 @@
-import OrderCard from '../../components/order-card/order-card';
+import OrderFeed from '../../components/order-feed/order-feed';
 import styles from './Feed.module.scss';
 
 export const Feed = () => {
@@ -11,32 +11,7 @@ export const Feed = () => {
 					<h1 className='text text_type_main-large mb-5 mt-10'>
 						Лента заказов
 					</h1>
-					<section className={styles.feedList}>
-						<OrderCard
-							num={7755}
-							dateFromServer='2022-10-10T17:33:32.877Z'
-							status='Создан'
-							price={345}
-						/>
-						<OrderCard
-							num={7755}
-							dateFromServer='2022-10-10T17:33:32.877Z'
-							status='Создан'
-							price={345}
-						/>
-						<OrderCard
-							num={7755}
-							dateFromServer='2022-10-10T17:33:32.877Z'
-							status='Создан'
-							price={345}
-						/>
-						<OrderCard
-							num={7755}
-							dateFromServer='2022-10-10T17:33:32.877Z'
-							status='Создан'
-							price={345}
-						/>
-					</section>
+					<OrderFeed />
 				</div>
 				<section className={`${styles.feedInfo} ml-15 mt-25`}>
 					<div className={styles.progress}>

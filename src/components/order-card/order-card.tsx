@@ -27,7 +27,7 @@ const OrderCard = ({
 	console.log(location);
 
 	return (
-		<Link to={`${location.pathname}/${num}`}>
+		<Link to={`${location.pathname}/${num}`} state={{ background: location }}>
 			<div className={`${styles.card} p-6 mb-4 mr-2`}>
 				<div className={`${styles.info} mb-6`}>
 					<p className='text text_type_digits-default'>{`#${num}`}</p>
