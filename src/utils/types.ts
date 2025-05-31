@@ -60,3 +60,19 @@ export type TOrderResponse = TResponse & {
 export type TResetPassResponse = TResponse & {
 	message: string;
 };
+
+export type TOrder = {
+	ingredients: string[];
+	_id: string;
+	status: 'created' | 'pending' | 'done' | 'cancelled';
+	number: number;
+	createdAt: string;
+	updatedAt: string;
+};
+
+export type TOrdersAllResponse = {
+	success: boolean;
+	orders: TOrder[];
+	total: number;
+	totalToday: number;
+};
