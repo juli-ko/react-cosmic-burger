@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TOrder } from '../../utils/types';
+import { TOrder } from '../../../utils/types';
 import { onError, onMessage } from './actions';
 
 type TInitialState = {
