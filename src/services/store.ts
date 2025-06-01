@@ -35,12 +35,15 @@ const orderFeedMiddleware = socketMiddleware({
 	onMessage,
 });
 
-const profileFeedMiddleware = socketMiddleware({
-	connect: connectProfileOrders,
-	disconnect: disconnectProfileOrders,
-	onError: onErrorProfileOrders,
-	onMessage: onMessageProfileOrders,
-});
+const profileFeedMiddleware = socketMiddleware(
+	{
+		connect: connectProfileOrders,
+		disconnect: disconnectProfileOrders,
+		onError: onErrorProfileOrders,
+		onMessage: onMessageProfileOrders,
+	},
+	true
+);
 
 const store = configureStore({
 	reducer: rootReducer,

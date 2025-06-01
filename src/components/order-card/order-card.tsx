@@ -21,7 +21,6 @@ type TOrderCard = {
 };
 
 const OrderCard = ({ order }: TOrderCard) => {
-	const ingredientsInOrderIds = order.ingredients;
 	const allIngredients = useSelector(getIngredientsData);
 	const ingredientsImg: Array<string> = [];
 	let ingredientsLength = 0;

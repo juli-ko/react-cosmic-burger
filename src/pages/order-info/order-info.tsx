@@ -5,9 +5,10 @@ import {
 	FormattedDate,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientIcon from '../../components/ingredient-icon/ingredient-icon';
+import { useParams } from 'react-router-dom';
 
 const OrderInfo = () => {
-	const orderNumber = 134533;
+	const { id } = useParams();
 	const dateFromServer = 'Вчера, 13:50';
 	const price = 423;
 	const amount = 1;
@@ -15,7 +16,7 @@ const OrderInfo = () => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.wrapper}>
-				<p className='text text_type_digits-default'>{`#${orderNumber}`}</p>
+				<p className='text text_type_digits-default'>{`#${id}`}</p>
 				<p className='text text_type_main-medium mt-10 mb-3'>
 					Black Hole Singularity острый бургер
 				</p>
