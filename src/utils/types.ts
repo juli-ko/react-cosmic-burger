@@ -64,6 +64,7 @@ export type TResetPassResponse = TResponse & {
 export type TOrder = {
 	ingredients: string[];
 	_id: string;
+	name: string;
 	status: 'created' | 'pending' | 'done' | 'cancelled';
 	number: number;
 	createdAt: string;

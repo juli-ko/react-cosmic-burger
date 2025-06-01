@@ -23,6 +23,7 @@ import { useAppDispatch } from '../../hooks/redux-hooks';
 import { ProfileOrders } from '../../pages/profile/ProfileOrders';
 import { Feed } from '../../pages/feed/Feed';
 import OrderInfo from '../../pages/order-info/order-info';
+import { loadIngredients } from '../../services/ingredientsSlice';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -34,6 +35,7 @@ export const App = () => {
 
 	useEffect(() => {
 		dispatch(checkUserAuth());
+		dispatch(loadIngredients());
 	}, []);
 
 	return (

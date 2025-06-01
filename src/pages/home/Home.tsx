@@ -19,10 +19,6 @@ export const Home = () => {
 	const hasError = useSelector(getIngredientsError);
 	const data = useSelector(getIngredientsData);
 
-	useEffect(() => {
-		dispatch(loadIngredients());
-	}, [dispatch]);
-
 	if (hasError) {
 		return (
 			<p className='text text_type_main-default'>
