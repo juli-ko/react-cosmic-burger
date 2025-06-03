@@ -77,3 +77,7 @@ export type TOrdersAllResponse = {
 	total: number;
 	totalToday: number;
 };
+
+export type TOrderByNumberResponse = TResponse & {
+	orders: TOrder[];
+};
