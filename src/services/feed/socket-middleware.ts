@@ -17,7 +17,7 @@ const RECONNECT_PERIOD = 3000;
 
 export const socketMiddleware = <R>(
 	wsActions: TWsActions<R>,
-	withTokenRefresh: boolean = false
+	withTokenRefresh = false
 ): Middleware<object, RootState> => {
 	return (store) => {
 		let socket: WebSocket | null = null;
@@ -85,6 +85,7 @@ export const socketMiddleware = <R>(
 				isConnected = false;
 				socket?.close();
 				socket = null;
+				console.log('fyhkdyk');
 
 				return;
 			}

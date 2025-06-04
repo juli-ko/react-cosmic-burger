@@ -1,5 +1,4 @@
 import {
-	TData,
 	TFormData,
 	TAuthResponse,
 	TRefreshTokenResponse,

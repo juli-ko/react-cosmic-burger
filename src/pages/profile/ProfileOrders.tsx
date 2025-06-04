@@ -21,7 +21,7 @@ export const ProfileOrders = () => {
 		return () => {
 			dispatch(disconnectProfileOrders());
 		};
-	}, []);
+	}, [url]);
 
 	return (
 		<div className={`${styles.wrapper} mt-15`}>
