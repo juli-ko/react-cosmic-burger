@@ -20,11 +20,14 @@ h1 {
 
 .progress {
 	display: flex;
-
-	div {
+	.progressRow {
+		min-width: 180px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.progressColumn {
 		display: flex;
 		flex-direction: column;
-		min-width: 260px;
 	}
 }
 

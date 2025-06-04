@@ -16,8 +16,7 @@ export const Feed = () => {
 	const ordersAll = useSelector(getAllOrders);
 	const ordersReady = ordersAll
 		.filter((order) => order.status === 'done')
-		.map((order) => order.number)
-		.slice(0, 5);
+		.map((order) => order.number);
 	const ordersInProgress = ordersAll
 		.filter((order) => order.status === 'pending')
 		.map((order) => order.number)
@@ -46,21 +45,49 @@ export const Feed = () => {
 					<div className={styles.progress}>
 						<div className='mr-9'>
 							<p className='text text_type_main-medium mb-6'>Готовы:</p>
-							{ordersReady.map((num) => (
-								<p
-									key={num}
-									className={`${styles.ready} text text_type_digits-default mt-2`}>
-									{num}
-								</p>
-							))}
+							<div className={styles.progressRow}>
+								<div className={styles.progressColumn}>
+									{ordersReady.slice(0, 5).map((num) => (
+										<p
+											key={num}
+											className={`${styles.ready} text text_type_digits-default mt-2`}>
+											{num}
+										</p>
+									))}
+								</div>
+								<div className={styles.progressColumn}>
+									{ordersReady.slice(5, 10).map((num) => (
+										<p
+											key={num}
+											className={`${styles.ready} text text_type_digits-default mt-2`}>
+											{num}
+										</p>
+									))}
+								</div>
+							</div>
 						</div>
-						<div>
+						<div className='ml-4'>
 							<p className='text text_type_main-medium mb-6'>В работе:</p>
-							{ordersInProgress.map((num) => (
-								<p key={num} className={`text text_type_digits-default mt-2`}>
-									{num}
-								</p>
-							))}
+							<div className={styles.progressRow}>
+								<div className={styles.progressColumn}>
+									{ordersInProgress.slice(0, 5).map((num) => (
+										<p
+											key={num}
+											className={`${styles.ready} text text_type_digits-default mt-2`}>
+											{num}
+										</p>
+									))}
+								</div>
+								<div className={styles.progressColumn}>
+									{ordersInProgress.slice(5, 10).map((num) => (
+										<p
+											key={num}
+											className={`${styles.ready} text text_type_digits-default mt-2`}>
+											{num}
+										</p>
+									))}
+								</div>
+							</div>
 						</div>
 					</div>
 					<p className='text text_type_main-medium mt-15'>
