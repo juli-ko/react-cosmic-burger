@@ -28,9 +28,9 @@
 .ingredientsBlock {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: stretch;
 	justify-content: space-between;
-	max-height: 30vh;
+	max-height: 25vh;
 	overflow-y: auto;
 	overflow-x: hidden;
 	scrollbar-color: auto;

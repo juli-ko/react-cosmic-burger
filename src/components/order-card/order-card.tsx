@@ -6,38 +6,16 @@ import styles from './order-card.module.scss';
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
 import { Link, useLocation } from 'react-router-dom';
 import { TOrder } from '../../utils/types';
-import { useSelector } from '../../hooks/redux-hooks';
-import { getIngredientsData } from '../../services/ingredientsSlice';
-
-const ORDER_STATUS = [
-	{ name: 'done', value: 'Выполнен' },
-	{ name: 'cancelled', value: 'Отменен' },
-	{ name: 'pending', value: 'Готовиться' },
-	{ name: 'created', value: 'Создан' },
-];
+import { useOrderDetails } from '../../hooks/useOrderDetails';
 
 type TOrderCard = {
 	order: TOrder;
 };
 
 const OrderCard = ({ order }: TOrderCard) => {
-	const allIngredients = useSelector(getIngredientsData);
-	const ingredientsImg: Array<string> = [];
-	let ingredientsLength = 0;
-	let orderPrice = 0;
-	order.ingredients.forEach((id) => {
-		const ingredientInfo = allIngredients.find((item) => item._id === id);
-		if (ingredientInfo) {
-			ingredientsImg.push(ingredientInfo.image_mobile);
-			orderPrice += ingredientInfo.price;
-			ingredientsLength += 1;
-		}
-	});
-
 	const location = useLocation();
-	const orderStatus =
-		ORDER_STATUS.find((status) => status.name === order.status)?.value ||
-		'Неизвестный статус';
+	const { orderStatus, orderPrice, ingredientsImg, ingredients } =
+		useOrderDetails(order);
 
 	return (
 		<Link
@@ -60,7 +38,7 @@ const OrderCard = ({ order }: TOrderCard) => {
 								img={image}
 								index={index}
 								key={index}
-								rest={ingredientsLength - 5}
+								rest={ingredients.length - 5}
 							/>
 						))}
 					</div>
