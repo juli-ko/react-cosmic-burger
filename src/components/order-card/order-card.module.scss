@@ -1,0 +1,35 @@
+.card {
+	background-color: #1c1c21;
+	border-radius: 40px;
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+}
+
+a {
+	color: white;
+	text-decoration: none;
+}
+
+.info {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.ingredients {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.currencyBlock {
+	display: flex;
+	align-items: center;
+}
+
+.ingredientsBlock {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}

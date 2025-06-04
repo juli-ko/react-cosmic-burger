@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -8,20 +7,14 @@ import {
 	getIngredientsData,
 	getIngredientsError,
 	getIngredientsLoading,
-	loadIngredients,
 } from '../../services/ingredientsSlice';
 import styles from './home.module.scss';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 
 export const Home = () => {
-	const dispatch = useAppDispatch();
 	const loading = useSelector(getIngredientsLoading);
 	const hasError = useSelector(getIngredientsError);
 	const data = useSelector(getIngredientsData);
-
-	useEffect(() => {
-		dispatch(loadIngredients());
-	}, [dispatch]);
 
 	if (hasError) {
 		return (

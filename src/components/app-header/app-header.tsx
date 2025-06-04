@@ -30,7 +30,7 @@ const AppHeader = () => {
 					</li>
 					<li className={styles.li}>
 						<NavLink
-							to='/orders'
+							to='/feed'
 							className={({ isActive }) =>
 								`${styles.link} ${
 									!isActive ? 'text_color_inactive' : styles.activeLink

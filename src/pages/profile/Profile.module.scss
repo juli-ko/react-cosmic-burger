@@ -14,6 +14,22 @@
 	text-align: end;
 }
 
+.wrapper {
+	min-width: 872px;
+	height: 80vh;
+	overflow-y: auto;
+	scrollbar-color: auto;
+	scrollbar-width: auto;
+
+	&::-webkit-scrollbar {
+		background-color: #2f2f37;
+		width: 10px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: #8585ad;
+	}
+}
+
 .link {
 	text-decoration: none;
 	width: 320px;

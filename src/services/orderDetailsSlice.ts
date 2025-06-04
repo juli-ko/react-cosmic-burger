@@ -1,19 +1,26 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchOrder } from '../utils/burger-api';
+import { fetchOrder, fetchOrderByNumber } from '../utils/burger-api';
+import { TOrder } from '../utils/types';
 
 type TInitialState = {
 	orderNumber: number | null;
+	orderDetails: TOrder | null | undefined;
 	hasError: boolean | string;
 	loading: boolean;
 };
 
 const initialState: TInitialState = {
 	orderNumber: null,
+	orderDetails: null,
 	hasError: false,
 	loading: false,
 };
 
 export const loadOrders = createAsyncThunk('orders/loadOrders', fetchOrder);
+export const getOrderByNumber = createAsyncThunk(
+	'orders/getOrderByNumber',
+	fetchOrderByNumber
+);
 
 const orderDetailsSlice = createSlice({
 	name: 'orders',
@@ -41,6 +48,14 @@ const orderDetailsSlice = createSlice({
 			.addCase(loadOrders.fulfilled, (state, action) => {
 				state.loading = false;
 				state.orderNumber = action.payload.order.number;
+			})
+			.addCase(getOrderByNumber.rejected, (state, action) => {
+				state.loading = false;
+				state.hasError = action.error?.message || 'Unknown error';
+			})
+			.addCase(getOrderByNumber.fulfilled, (state, action) => {
+				state.loading = false;
+				state.orderDetails = action.payload.orders[0];
 			});
 	},
 });
