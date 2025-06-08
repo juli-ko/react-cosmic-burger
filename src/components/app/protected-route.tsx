@@ -15,7 +15,7 @@ const Protected = ({ onlyUnAuth = false, component }: TProtected) => {
 
 	if (!isAuthChecked) {
 		// Запрос еще выполняется
-		return <img src={loader} alt='loader' />;
+		return <img src={loader} alt='loader' style={{ width: 300 }} />;
 	}
 
 	if (onlyUnAuth && user) {

@@ -1,0 +1,40 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	flex-grow: 1;
+}
+.wrapper {
+	display: flex;
+}
+
+h1 {
+	text-align: start;
+}
+
+.feedInfo {
+	display: flex;
+	flex-direction: column;
+}
+
+.progress {
+	display: flex;
+	.progressRow {
+		min-width: 180px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.progressColumn {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.ready {
+	color: aqua;
+}
+
+.numbers {
+	text-shadow: 0 0 15px #4c4cff;
+}

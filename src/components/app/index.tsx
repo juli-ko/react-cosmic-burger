@@ -20,6 +20,10 @@ import { OnlyAuth, OnlyUnAuth } from './protected-route';
 import { Profile } from '../../pages/profile/Profile';
 import { ProfileUser } from '../../pages/profile/ProfileUser';
 import { useAppDispatch } from '../../hooks/redux-hooks';
+import { ProfileOrders } from '../../pages/profile/ProfileOrders';
+import { Feed } from '../../pages/feed/Feed';
+import OrderInfo from '../../pages/order-info/order-info';
+import { loadIngredients } from '../../services/ingredientsSlice';
 
 export const App = () => {
 	const dispatch = useAppDispatch();
@@ -31,6 +35,7 @@ export const App = () => {
 
 	useEffect(() => {
 		dispatch(checkUserAuth());
+		dispatch(loadIngredients());
 	}, []);
 
 	return (
@@ -38,6 +43,8 @@ export const App = () => {
 			<AppHeader />
 			<Routes location={background || location}>
 				<Route path='/' element={<Home />} />
+				<Route path='/feed' element={<Feed />} />
+				<Route path='/feed/:id' element={<OrderInfo />} />
 				<Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
 				<Route
 					path='/register'
@@ -53,8 +60,9 @@ export const App = () => {
 				/>
 				<Route path='/profile' element={<OnlyAuth component={<Profile />} />}>
 					<Route index element={<ProfileUser />} />
-					<Route path='orders' element={''} />
+					<Route path='orders' element={<ProfileOrders />} />
 				</Route>
+				<Route path='/profile/orders/:id' element={<OrderInfo />} />
 				<Route
 					path='/ingredients/:ingredientId'
 					element={<IngredientDetails />}
@@ -69,6 +77,22 @@ export const App = () => {
 						element={
 							<Modal onClose={handleModalClose}>
 								<IngredientDetails />
+							</Modal>
+						}
+					/>
+					<Route
+						path='/profile/orders/:id'
+						element={
+							<Modal onClose={handleModalClose}>
+								<OrderInfo />
+							</Modal>
+						}
+					/>
+					<Route
+						path='/feed/:id'
+						element={
+							<Modal onClose={handleModalClose}>
+								<OrderInfo />
 							</Modal>
 						}
 					/>

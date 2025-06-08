@@ -1,0 +1,56 @@
+.container {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	align-items: center;
+	min-height: 200px;
+	justify-content: center;
+}
+.wrapper {
+	width: 620px;
+}
+
+.ready {
+	color: aqua;
+}
+
+.infoBlock {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.currencyBlock {
+	display: flex;
+	align-items: center;
+}
+
+.ingredientsBlock {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: space-between;
+	max-height: 25vh;
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-color: auto;
+	scrollbar-width: auto;
+
+	&::-webkit-scrollbar {
+		background-color: #2f2f37;
+		width: 10px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: #8585ad;
+	}
+}
+
+.card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+.name {
+	width: 370px;
+}

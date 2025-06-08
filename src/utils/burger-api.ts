@@ -1,11 +1,11 @@
 import {
-	TData,
 	TFormData,
 	TAuthResponse,
 	TRefreshTokenResponse,
 	TOrderResponse,
 	TResetPassResponse,
 	TIngredientResponse,
+	TOrderByNumberResponse,
 } from './types';
 
 const API_URL = 'https://norma.nomoreparties.space/api';
@@ -174,4 +174,13 @@ export const refreshUser = (
 			body: JSON.stringify(formData),
 		}
 	);
+};
+
+export const fetchOrderByNumber = (id: string) => {
+	return request<TOrderByNumberResponse>(`/orders/${id}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
 };
