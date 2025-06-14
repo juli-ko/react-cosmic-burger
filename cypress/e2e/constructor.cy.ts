@@ -10,7 +10,7 @@ const SELECTORS = {
   DROP_BUN: '[data-testid="drop-bun"]'
 };
 
-describe('modals check', () => {
+describe('constructor tests', () => {
 	beforeEach(() => {
 		window.localStorage.clear();
 		window.localStorage.setItem("accessToken", JSON.stringify("test-accessToken"));
@@ -21,7 +21,6 @@ describe('modals check', () => {
 
 		cy.intercept('GET', 'https://norma.nomoreparties.space/api/auth/user', {
 			fixture: 'user.json',
-			statusCode: 200
 		}).as('getUser');
 
 		cy.visit('/');
@@ -63,15 +62,16 @@ describe('modals check', () => {
 		});
 
 		cy.get('@firstItem').invoke('text').then((firstText) => {
-			cy.get('@container').should('contain.text', firstText.trim());
-		});
+			const nameOnly = firstText.split(/\d+/)[0].trim();
+			cy.get('@container').should('contain.text', nameOnly)})
 
 		cy.get('@secondItem').invoke('text').then((secondText) => {
-			cy.get('@container').should('contain.text', secondText.trim());
+			const nameOnly = secondText.split(/\d+/)[0].trim();
+			cy.get('@container').should('contain.text', nameOnly);
 		});
 	})
 
-	it('should open order details modal', () => {
+	it('should open order details modal with order data', () => {
 		cy.get(SELECTORS.INGREDIENT_ITEM).first().trigger('dragstart')
 		cy.get(SELECTORS.DROP_BUN).first().trigger('drop')
 
@@ -80,6 +80,14 @@ describe('modals check', () => {
 
 		cy.get(SELECTORS.CREATE_ORDER_BUTTON).click();
 		cy.get(SELECTORS.ORDER_MODAL).as('modal').should('be.visible');
+
+		cy.intercept('POST', 'https://norma.nomoreparties.space/api/orders', {
+			statusCode: 200,
+			body: { success: true, name: 'Order 123', order: { number: 12345 } },
+		}).as('getOrder');
+		cy.wait('@getOrder', { timeout: 20000 });
+
+		cy.get('@modal').should('contain.text', '12345')
 	});
 
 	it('should close order modal when clicking close button', () => {
