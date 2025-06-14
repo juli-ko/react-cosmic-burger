@@ -35,3 +35,20 @@
 //     }
 //   }
 // }
+
+
+import type {} from "./cypress";
+
+Cypress.Commands.add("login", () => {
+	const email="test001@gmail.ru"
+ 	const password="123456"
+	 cy.intercept("POST", "/auth/login", {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).as("login");
+
+	cy.get('[data-testid=email_input]').click({force: true}).type(email);
+    cy.get('[data-testid=password_input]').type(`${password}{enter}`);
+	cy.wait("@login")
+});

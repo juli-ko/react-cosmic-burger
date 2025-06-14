@@ -24,23 +24,6 @@ const mockAuthResponse: TAuthResponse = {
 	refreshToken: 'testRefreshToken',
 };
 
-const localStorageMock = {
-	state: {
-		accessToken: 'testToken',
-	},
-	getItem: jest.fn(function (key) {
-		return this.state[key];
-	}),
-};
-
-Object.defineProperty(window, 'localStorage', {
-	value: localStorageMock,
-});
-
-jest.mock('../utils/burger-api', () => ({
-	getUser: jest.fn(() => Promise.resolve({ user: mockUser })),
-}));
-
 describe('userSlice', () => {
 	it('should return the initial state', () => {
 		expect(userReducer(undefined, { type: '' })).toEqual(initialState);

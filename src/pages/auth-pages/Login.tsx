@@ -42,12 +42,14 @@ export const Login = () => {
 					value={formData.email}
 					name={'email'}
 					isIcon={true}
+					data-testid='email_input'
 					extraClass='mb-6'
 				/>
 				<PasswordInput
 					onChange={handleChange}
 					value={formData.password}
 					name={'password'}
+					data-testid='password_input'
 					extraClass='mb-6'
 				/>
 				<Button htmlType='submit' type='primary' size='medium'>
