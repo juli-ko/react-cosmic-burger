@@ -1,6 +1,7 @@
 {
 	"name": "React-Webpack-Starter",
 	"version": "1.0.0",
+	"homepage": "https://juli-ko.github.io/react-cosmic-burger",
 	"main": "index.js",
 	"license": "MIT",
 	"devDependencies": {
@@ -68,13 +69,16 @@
 		"format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ./.prettierignore",
 		"test": "yarn stylelint:fix && yarn lint && yarn format",
 		"prepare": "husky install",
-		"commit": "yarn test && cz"
+		"commit": "yarn test && cz",
+		"predeploy": "yarn run build",
+		"deploy": "gh-pages -d dist"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.8.2",
 		"@ya.praktikum/react-developer-burger-ui-components": "^1.14.2",
 		"clsx": "^2.1.0",
 		"core-js": "^3.38.1",
+		"gh-pages": "^6.3.0",
 		"react": "^18.2.0",
 		"react-dnd": "^16.0.1",
 		"react-dnd-html5-backend": "^16.0.1",
@@ -94,6 +98,5 @@
 			"path": "./node_modules/cz-conventional-changelog"
 		}
 	},
-	"homepage": "./",
 	"packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
