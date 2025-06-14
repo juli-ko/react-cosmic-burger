@@ -36,7 +36,10 @@ const Modal = ({ children, header, onClose }: PropsWithChildren<TModal>) => {
 			<div className={styles.modal}>
 				<div className={`${styles.header} mt-10 mr-10 ml-10`}>
 					<h2 className='text text_type_main-large'>{header}</h2>
-					<button className={styles.closeBtn} onClick={onClose}>
+					<button
+						className={styles.closeBtn}
+						onClick={onClose}
+						data-testid='modal-close-button'>
 						<CloseIcon type='primary' />
 					</button>
 				</div>

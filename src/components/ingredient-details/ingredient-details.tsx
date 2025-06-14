@@ -31,7 +31,7 @@ const IngredientDetails = () => {
 	}
 
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} data-testid='ingredient-modal'>
 			<img src={itemData.image_large} alt={itemData.name} />
 			<p className='text text_type_main-medium mt-4 mb-8'>{itemData.name}</p>
 			<ul

@@ -39,6 +39,7 @@ const IngredientItem = ({ itemData }: TIngredientItem) => {
 			state={{ background: location }}
 			ref={dragRef}
 			className={styles.ingredient}
+			data-testid='ingredient-item'
 			style={{ opacity }}>
 			{count > 0 && <Counter count={count} size='default' extraClass='m-1' />}
 			<img src={itemData.image} alt={itemData.name} />

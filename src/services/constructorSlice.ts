@@ -6,12 +6,12 @@ import {
 } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '../utils/types';
 
-type TInitialState = {
+export type TInitialState = {
 	items: TConstructorIngredient[];
 	bun: TIngredient | null;
 };
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
 	items: [],
 	bun: null,
 };

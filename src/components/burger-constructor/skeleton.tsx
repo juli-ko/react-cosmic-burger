@@ -18,7 +18,8 @@ const Skeleton = ({
 	return (
 		<div
 			className={`constructor-element ${additionalClassName} ${styles.skeleton}`}
-			style={{ border: `2px dotted ${borderColor}` }}>
+			style={{ border: `2px dotted ${borderColor}` }}
+			data-testid={position ? 'drop-bun' : ''}>
 			<p className='text text_type_main-default text_color_inactive'>{text}</p>
 		</div>
 	);

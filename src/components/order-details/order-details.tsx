@@ -29,7 +29,7 @@ const OrderDetails = ({ ingredientsError }: TOrderDetails) => {
 	}
 
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} data-testid='order-modal'>
 			{hasError && (
 				<>
 					<p className='text text_type_main-medium'>Ошибка!</p>

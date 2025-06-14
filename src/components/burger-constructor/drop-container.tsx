@@ -68,7 +68,9 @@ const DropContainer = ({ type, position }: TDropContainer) => {
 					/>
 				))}
 			{type === 'ingredient' && (
-				<div className={`${styles.ingredientsScroll} mb-4 p-2`}>
+				<div
+					className={`${styles.ingredientsScroll} mb-4 p-2`}
+					data-testid='drop-element'>
 					{ingredients.length <= 0 && (
 						<Skeleton
 							text='Выберите начинку и соус'

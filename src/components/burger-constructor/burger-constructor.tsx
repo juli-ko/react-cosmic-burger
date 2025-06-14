@@ -91,6 +91,7 @@ const BurgerConstructor = () => {
 					htmlType='button'
 					type='primary'
 					size='medium'
+					data-testid='create-order-button'
 					onClick={handleClick}>
 					Оформить заказ
 				</Button>
