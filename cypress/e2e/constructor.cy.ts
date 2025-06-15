@@ -15,11 +15,11 @@ describe('constructor tests', () => {
 		window.localStorage.clear();
 		window.localStorage.setItem("accessToken", JSON.stringify("test-accessToken"));
 
-		cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', {
+		cy.intercept('GET', 'api/ingredients', {
 			fixture: 'ingredients.json'
 		}).as('getIngredients');
 
-		cy.intercept('GET', 'https://norma.nomoreparties.space/api/auth/user', {
+		cy.intercept('GET', 'api/auth/user', {
 			fixture: 'user.json',
 		}).as('getUser');
 
@@ -81,7 +81,7 @@ describe('constructor tests', () => {
 		cy.get(SELECTORS.CREATE_ORDER_BUTTON).click();
 		cy.get(SELECTORS.ORDER_MODAL).as('modal').should('be.visible');
 
-		cy.intercept('POST', 'https://norma.nomoreparties.space/api/orders', {
+		cy.intercept('POST', 'api/orders', {
 			statusCode: 200,
 			body: { success: true, name: 'Order 123', order: { number: 12345 } },
 		}).as('getOrder');
