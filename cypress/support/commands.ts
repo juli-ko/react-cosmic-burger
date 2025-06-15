@@ -1,54 +1,31 @@
 /// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
-
-
 import type {} from "./cypress";
 
-Cypress.Commands.add("login", () => {
-	const email="test001@gmail.ru"
- 	const password="123456"
-	 cy.intercept("POST", "/auth/login", {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).as("login");
+Cypress.Commands.add('closeModal', () => {
+	cy.get('[data-testid="modal-close-button"]').click();
+});
 
-	cy.get('[data-testid=email_input]').click({force: true}).type(email);
-    cy.get('[data-testid=password_input]').type(`${password}{enter}`);
-	cy.wait("@login")
+Cypress.Commands.add('mockOrderResponse', () => {
+	cy.intercept('POST', 'api/orders', {
+		statusCode: 200,
+		body: { success: true, name: 'Order 123', order: { number: 12345 } },
+	}).as('getOrder');
+	cy.wait('@getOrder', { timeout: 20000 });
+});
+
+Cypress.Commands.add('mockAuthAndIngredientResponse', () => {
+	window.localStorage.clear();
+	window.localStorage.setItem("accessToken", JSON.stringify("test-accessToken"));
+
+	cy.intercept('GET', 'api/ingredients', {
+		fixture: 'ingredients.json'
+	}).as('getIngredients');
+
+	cy.intercept('GET', 'api/auth/user', {
+		fixture: 'user.json',
+	}).as('getUser');
+
+	cy.visit('/');
+	cy.wait('@getUser')
+	cy.wait('@getIngredients');
 });

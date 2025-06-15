@@ -4,7 +4,6 @@ const SELECTORS = {
   INGREDIENT_ITEM: '[data-testid="ingredient-item"]',
   INGREDIENT_MODAL: '[data-testid="ingredient-modal"]',
   ORDER_MODAL: '[data-testid="order-modal"]',
-  CLOSE_MODAL_BUTTON: '[data-testid="modal-close-button"]',
   CREATE_ORDER_BUTTON: '[data-testid="create-order-button"]',
   DROP_ELEMENT: '[data-testid="drop-element"]',
   DROP_BUN: '[data-testid="drop-bun"]'
@@ -12,20 +11,7 @@ const SELECTORS = {
 
 describe('constructor tests', () => {
 	beforeEach(() => {
-		window.localStorage.clear();
-		window.localStorage.setItem("accessToken", JSON.stringify("test-accessToken"));
-
-		cy.intercept('GET', 'api/ingredients', {
-			fixture: 'ingredients.json'
-		}).as('getIngredients');
-
-		cy.intercept('GET', 'api/auth/user', {
-			fixture: 'user.json',
-		}).as('getUser');
-
-		cy.visit('/');
-		cy.wait('@getUser')
-		cy.wait('@getIngredients');
+		cy.mockAuthAndIngredientResponse()
 	});
 
 	it('should open ingredient modal when clicking on an ingredient', () => {
@@ -41,7 +27,7 @@ describe('constructor tests', () => {
 
 	it('should close ingredient modal when clicking close button', () => {
 		cy.get(SELECTORS.INGREDIENT_ITEM).first().click();
-		cy.get(SELECTORS.CLOSE_MODAL_BUTTON).click();
+		cy.closeModal();
 		cy.get(SELECTORS.INGREDIENT_MODAL).should('not.exist');
 	});
 
@@ -81,18 +67,13 @@ describe('constructor tests', () => {
 		cy.get(SELECTORS.CREATE_ORDER_BUTTON).click();
 		cy.get(SELECTORS.ORDER_MODAL).as('modal').should('be.visible');
 
-		cy.intercept('POST', 'api/orders', {
-			statusCode: 200,
-			body: { success: true, name: 'Order 123', order: { number: 12345 } },
-		}).as('getOrder');
-		cy.wait('@getOrder', { timeout: 20000 });
-
+		cy.mockOrderResponse()
 		cy.get('@modal').should('contain.text', '12345')
 	});
 
 	it('should close order modal when clicking close button', () => {
 		cy.get(SELECTORS.CREATE_ORDER_BUTTON).click();
-		cy.get(SELECTORS.CLOSE_MODAL_BUTTON).click();
+		cy.closeModal();
 		cy.get(SELECTORS.ORDER_MODAL).should('not.exist');
 	});
 });

@@ -3,7 +3,9 @@ import "./commands";
 declare global {
     namespace Cypress {
         interface Chainable {
-            login(): void;
+            mockOrderResponse(): void,
+			mockAuthAndIngredientResponse():void,
+			closeModal(): void;
         }
     }
 }
