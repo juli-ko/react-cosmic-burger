@@ -13,7 +13,7 @@ type TInitialState = {
 	isAuthChecked: boolean;
 };
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
 	user: null,
 	isAuthChecked: false, // isAuthChecked флаг, показывающий что проверка токена произведена при этом результат проверки не имеет значения
 };

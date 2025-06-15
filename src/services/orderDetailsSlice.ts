@@ -9,7 +9,7 @@ type TInitialState = {
 	loading: boolean;
 };
 
-const initialState: TInitialState = {
+export const initialState: TInitialState = {
 	orderNumber: null,
 	orderDetails: null,
 	hasError: false,
